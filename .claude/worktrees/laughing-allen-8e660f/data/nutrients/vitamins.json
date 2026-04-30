@@ -1,0 +1,11 @@
+{
+  "source": "RIVM Voedingsnormen",
+  "vitamins": [
+    {"name": "Vitamine A", "adh_adults_mcg": 800, "function": "Gezichtsvermogen, immuunsysteem", "sources": ["wortel", "zoete aardappel", "spinazie"]},
+    {"name": "Vitamine B12", "adh_adults_mcg": 2.8, "function": "Zenuwstelsel, rode bloedcellen", "sources": ["verrijkte havermelk", "verrijkte voedingsgist"]},
+    {"name": "Vitamine C", "adh_adults_mg": 75, "function": "Antioxidant, immuunsysteem, ijzeropname", "sources": ["sinaasappel", "kiwi", "rode paprika", "aardbei"]},
+    {"name": "Vitamine D", "adh_adults_mcg": 10, "function": "Botgezondheid, immuunsysteem", "sources": ["zonlicht", "verrijkte producten"]},
+    {"name": "Vitamine E", "adh_adults_mg": 11, "function": "Antioxidant, celbescherming", "sources": ["amandelen", "zonnebloemolie", "avocado"]},
+    {"name": "Vitamine K", "adh_adults_mcg": 70, "function": "Bloedstolling, botgezondheid", "sources": ["boerenkool", "spinazie", "broccoli"]}
+  ]
+}

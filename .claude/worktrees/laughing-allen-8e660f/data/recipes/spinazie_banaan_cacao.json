@@ -1,0 +1,16 @@
+{
+  "id": "spinazie_banaan_cacao",
+  "name": "Spinazie, Banaan & Cacao Power Boost",
+  "goal": ["energie", "ijzer", "magnesium"],
+  "diet": ["vegan", "lactosevrij"],
+  "ingredients": [
+    {"item": "verse spinazie", "amount": "1 handvol", "nutrients": ["ijzer", "magnesium", "foliumzuur"]},
+    {"item": "rijpe banaan", "amount": "1 stuks", "nutrients": ["kalium", "vitamine B6", "koolhydraten"]},
+    {"item": "rauwe cacaopoeder", "amount": "1 el", "nutrients": ["magnesium", "antioxidanten", "ijzer"]},
+    {"item": "havermelk (B12-verrijkt)", "amount": "200 ml", "nutrients": ["vitamine B12", "calcium"]},
+    {"item": "chiazaad", "amount": "1 tl", "nutrients": ["omega-3", "vezels"], "optional": true}
+  ],
+  "instructions": "Doe alle ingrediënten in een blender en mix 60 seconden op hoge snelheid tot een gladde consistentie.",
+  "nutritional_benefit": "Rijk aan ijzer en magnesium — ideaal bij vermoeidheidsklachten en spierherstel.",
+  "disclaimer": "Dit is algemene voedingsinformatie, geen medisch advies."
+}

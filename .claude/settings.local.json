@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C \"C:\\\\Users\\\\yangr\\\\BlendSmart AI\" rev-parse --show-toplevel)",
+      "Bash(git -C \"C:\\\\Users\\\\yangr\" diff --cached --name-only)",
+      "Bash(git -C \"C:\\\\Users\\\\yangr\" status --short)"
+    ]
+  }
+}

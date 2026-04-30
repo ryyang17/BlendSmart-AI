@@ -1,0 +1,9 @@
+{
+  "source": "RIVM Voedingsnormen",
+  "minerals": [
+    {"name": "IJzer", "adh_adults_mg": 11, "function": "Zuurstoftransport, energiemetabolisme", "sources": ["spinazie", "peulvruchten", "pompoen"], "note": "Vitamine C verhoogt opname van plantaardig ijzer"},
+    {"name": "Calcium", "adh_adults_mg": 1000, "function": "Botgezondheid, spierwerking", "sources": ["verrijkte plantaardige melk", "boerenkool", "amandelen"]},
+    {"name": "Magnesium", "adh_adults_mg": 300, "function": "Spier- en zenuwfunctie, energieproductie", "sources": ["cacao", "spinazie", "pompoenpitten", "banaan"]},
+    {"name": "Zink", "adh_adults_mg": 9, "function": "Immuunsysteem, wondgenezing", "sources": ["pompoenpitten", "lijnzaad", "haver"]}
+  ]
+}
