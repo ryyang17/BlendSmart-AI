@@ -1,0 +1,71 @@
+ {
+    "id": "pompoen_kaneel_slaap",
+    "name": "Pompoen, Kaneel & Amandel Avondshake",
+    "goal": [
+      "slaap",
+      "ontspanning",
+      "magnesium"
+    ],
+    "diet": [
+      "vegan",
+      "lactosevrij",
+      "glutenvrij"
+    ],
+    "ingredients": [
+      {
+        "item": "pompoenpitten",
+        "amount": "2 el",
+        "nutrients": [
+          "magnesium",
+          "tryptofaan",
+          "zink"
+        ]
+      },
+      {
+        "item": "rijpe banaan",
+        "amount": "0.5 stuks",
+        "nutrients": [
+          "tryptofaan",
+          "kalium",
+          "vitamine B6"
+        ]
+      },
+      {
+        "item": "amandelmelk (ongezoet)",
+        "amount": "250 ml",
+        "nutrients": [
+          "magnesium",
+          "vitamine E",
+          "calcium"
+        ]
+      },
+      {
+        "item": "kaneelpoeder",
+        "amount": "0.5 tl",
+        "nutrients": [
+          "antioxidanten",
+          "bloedsuikerregulering"
+        ]
+      },
+      {
+        "item": "havervlokken",
+        "amount": "2 el",
+        "nutrients": [
+          "complexe koolhydraten",
+          "bètaglucaan",
+          "vezels"
+        ]
+      },
+      {
+        "item": "vanille-extract (puur)",
+        "amount": "0.25 tl",
+        "nutrients": [
+          "antioxidanten"
+        ],
+        "optional": true
+      }
+    ],
+    "instructions": "Week de havervlokken 5 minuten in de amandelmelk. Voeg alle overige ingrediënten toe en mix 60 seconden op middelhoge snelheid. Warm of koud serveren.",
+    "nutritional_benefit": "Tryptofaan en magnesium ondersteunen de aanmaak van melatonine — bevordert een natuurlijke, rustige slaap.",
+    "disclaimer": "Dit is algemene voedingsinformatie, geen medisch advies."
+  }

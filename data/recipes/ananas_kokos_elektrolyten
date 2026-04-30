@@ -1,0 +1,65 @@
+ {
+    "id": "ananas_kokos_elektrolyten",
+    "name": "Ananas, Kokos & Zeezout Elektrolytenboost",
+    "goal": [
+      "hydratatie",
+      "elektrolyten",
+      "spijsvertering"
+    ],
+    "diet": [
+      "vegan",
+      "lactosevrij",
+      "glutenvrij"
+    ],
+    "ingredients": [
+      {
+        "item": "verse of bevroren ananas",
+        "amount": "150 g",
+        "nutrients": [
+          "vitamine C",
+          "bromelaïne",
+          "mangaan"
+        ]
+      },
+      {
+        "item": "kokoswater (ongezoet)",
+        "amount": "300 ml",
+        "nutrients": [
+          "kalium",
+          "natrium",
+          "magnesium",
+          "elektrolyten"
+        ]
+      },
+      {
+        "item": "limoen (sap)",
+        "amount": "0.5 stuks",
+        "nutrients": [
+          "vitamine C",
+          "foliumzuur",
+          "flavonoïden"
+        ]
+      },
+      {
+        "item": "zeezout",
+        "amount": "1 snufje",
+        "nutrients": [
+          "natrium",
+          "chloride",
+          "sporenmineralen"
+        ]
+      },
+      {
+        "item": "verse koriander",
+        "amount": "5 blaadjes",
+        "nutrients": [
+          "vitamine K",
+          "antioxidanten"
+        ],
+        "optional": true
+      }
+    ],
+    "instructions": "Voeg alle ingrediënten toe aan de blender. Mix 45 seconden tot een lichte, verfrissende drank. Serveer koud — ideaal direct na het sporten.",
+    "nutritional_benefit": "Kokoswater en zeezout herstellen verloren elektrolyten na het zweten. Bromelaïne uit ananas ondersteunt de spijsvertering en vermindert spierpijn.",
+    "disclaimer": "Dit is algemene voedingsinformatie, geen medisch advies."
+  }

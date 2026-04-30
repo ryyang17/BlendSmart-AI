@@ -1,0 +1,69 @@
+ {
+    "id": "mango_kurkuma_immuun",
+    "name": "Mango, Kurkuma & Kokos Immuunshake",
+    "goal": [
+      "immuunsysteem",
+      "ontstekingsremming",
+      "vitamine C"
+    ],
+    "diet": [
+      "vegan",
+      "lactosevrij",
+      "glutenvrij"
+    ],
+    "ingredients": [
+      {
+        "item": "bevroren mango",
+        "amount": "150 g",
+        "nutrients": [
+          "vitamine C",
+          "bètacaroteen",
+          "vitamine A"
+        ]
+      },
+      {
+        "item": "kurkumapoeder",
+        "amount": "1 tl",
+        "nutrients": [
+          "curcumine",
+          "antioxidanten",
+          "ontstekingsremmers"
+        ]
+      },
+      {
+        "item": "kokosmelk (light)",
+        "amount": "200 ml",
+        "nutrients": [
+          "middellange-keten vetzuren",
+          "mangaan"
+        ]
+      },
+      {
+        "item": "verse sinaasappel (geperst)",
+        "amount": "0.5 stuks",
+        "nutrients": [
+          "vitamine C",
+          "flavonoïden"
+        ]
+      },
+      {
+        "item": "zwarte peper",
+        "amount": "1 snufje",
+        "nutrients": [
+          "piperine (verhoogt curcumine-opname)"
+        ]
+      },
+      {
+        "item": "verse munt",
+        "amount": "5 blaadjes",
+        "nutrients": [
+          "antioxidanten",
+          "menthol"
+        ],
+        "optional": true
+      }
+    ],
+    "instructions": "Pers de sinaasappel uit. Doe alle ingrediënten in de blender. Mix 60 seconden. Let op: de zwarte peper is essentieel voor een betere opname van kurkuma.",
+    "nutritional_benefit": "Kurkuma in combinatie met piperine heeft krachtige ontstekingsremmende eigenschappen — ondersteunt het immuunsysteem en versnelt herstel.",
+    "disclaimer": "Dit is algemene voedingsinformatie, geen medisch advies."
+  }

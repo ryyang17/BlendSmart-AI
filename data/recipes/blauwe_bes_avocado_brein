@@ -1,0 +1,64 @@
+{
+    "id": "blauwe_bes_avocado_brein",
+    "name": "Blauwe Bes, Avocado & Walnoot Breinbooster",
+    "goal": [
+      "concentratie",
+      "geheugen",
+      "hersengezondheid"
+    ],
+    "diet": [
+      "vegan",
+      "lactosevrij",
+      "glutenvrij"
+    ],
+    "ingredients": [
+      {
+        "item": "blauwe bessen (vers of bevroren)",
+        "amount": "100 g",
+        "nutrients": [
+          "anthocyaninen",
+          "vitamine C",
+          "antioxidanten"
+        ]
+      },
+      {
+        "item": "rijpe avocado",
+        "amount": "0.5 stuks",
+        "nutrients": [
+          "gezonde vetten",
+          "vitamine E",
+          "foliumzuur"
+        ]
+      },
+      {
+        "item": "walnoten",
+        "amount": "5 stuks",
+        "nutrients": [
+          "omega-3 ALA",
+          "vitamine E",
+          "polyfenolen"
+        ]
+      },
+      {
+        "item": "ongezoete amandelmelk",
+        "amount": "250 ml",
+        "nutrients": [
+          "vitamine E",
+          "calcium"
+        ]
+      },
+      {
+        "item": "lijnzaad (gemalen)",
+        "amount": "1 tl",
+        "nutrients": [
+          "omega-3",
+          "lignanen",
+          "vezels"
+        ],
+        "optional": true
+      }
+    ],
+    "instructions": "Voeg alle ingrediënten toe aan de blender. Mix 60-90 seconden tot een romige, gladde smoothie. Direct serveren.",
+    "nutritional_benefit": "Anthocyaninen en omega-3 ondersteunen cognitieve functies en geheugen — bij uitstek geschikt als ontbijt voor een productieve dag.",
+    "disclaimer": "Dit is algemene voedingsinformatie, geen medisch advies."
+  }

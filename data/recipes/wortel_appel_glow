@@ -1,0 +1,64 @@
+{
+    "id": "wortel_appel_glow",
+    "name": "Wortel, Appel & Gember Glowshake",
+    "goal": [
+      "huid",
+      "vitamine A",
+      "immuunsysteem"
+    ],
+    "diet": [
+      "vegan",
+      "lactosevrij",
+      "glutenvrij"
+    ],
+    "ingredients": [
+      {
+        "item": "wortels (rauw)",
+        "amount": "2 stuks (medium)",
+        "nutrients": [
+          "bètacaroteen",
+          "vitamine A",
+          "vitamine K"
+        ]
+      },
+      {
+        "item": "zoete appel (bijv. Gala)",
+        "amount": "1 stuks",
+        "nutrients": [
+          "vitamine C",
+          "quercetine",
+          "vezels"
+        ]
+      },
+      {
+        "item": "verse gember",
+        "amount": "1.5 cm stukje",
+        "nutrients": [
+          "gingerolen",
+          "antioxidanten",
+          "ontstekingsremmers"
+        ]
+      },
+      {
+        "item": "sinaasappelsap (vers geperst)",
+        "amount": "150 ml",
+        "nutrients": [
+          "vitamine C",
+          "foliumzuur",
+          "flavonoïden"
+        ]
+      },
+      {
+        "item": "koudgeperste lijnzaadolie",
+        "amount": "1 tl",
+        "nutrients": [
+          "omega-3",
+          "vitamine E"
+        ],
+        "optional": true
+      }
+    ],
+    "instructions": "Schil de wortels en snijd in stukken. Verwijder het klokhuis van de appel. Doe alle ingrediënten in de blender en mix 90 seconden op hoge snelheid. Zeef voor een gladdere textuur.",
+    "nutritional_benefit": "Bètacaroteen wordt in het lichaam omgezet naar vitamine A — essentieel voor een gezonde huid, gezichtsvermogen en weerstand.",
+    "disclaimer": "Dit is algemene voedingsinformatie, geen medisch advies."
+  }

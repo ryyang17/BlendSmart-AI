@@ -1,0 +1,64 @@
+{
+    "id": "aardbei_yoghurt_proteïne",
+    "name": "Aardbei, Griekse Yoghurt & Honing Eiwitshake",
+    "goal": [
+      "spierherstel",
+      "proteïne",
+      "probiotica"
+    ],
+    "diet": [
+      "vegetarisch",
+      "glutenvrij"
+    ],
+    "ingredients": [
+      {
+        "item": "verse of bevroren aardbeien",
+        "amount": "150 g",
+        "nutrients": [
+          "vitamine C",
+          "foliumzuur",
+          "antioxidanten"
+        ]
+      },
+      {
+        "item": "Griekse yoghurt (10% vet)",
+        "amount": "200 g",
+        "nutrients": [
+          "proteïne",
+          "calcium",
+          "probiotica"
+        ]
+      },
+      {
+        "item": "rauwe honing",
+        "amount": "1 el",
+        "nutrients": [
+          "enzymen",
+          "antioxidanten",
+          "snelle koolhydraten"
+        ]
+      },
+      {
+        "item": "volle melk",
+        "amount": "100 ml",
+        "nutrients": [
+          "calcium",
+          "vitamine D",
+          "proteïne"
+        ]
+      },
+      {
+        "item": "hennepzaad",
+        "amount": "1 el",
+        "nutrients": [
+          "complete aminozuren",
+          "omega-3",
+          "omega-6"
+        ],
+        "optional": true
+      }
+    ],
+    "instructions": "Doe alle ingrediënten in de blender. Mix 45 seconden op hoge snelheid. Lekker dik en romig — voeg extra melk toe voor een dunnere consistentie.",
+    "nutritional_benefit": "Griekse yoghurt levert zo'n 20 gram proteïne per portie — uitstekend voor spierherstel na krachttraining.",
+    "disclaimer": "Dit is algemene voedingsinformatie, geen medisch advies."
+  }

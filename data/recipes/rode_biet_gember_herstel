@@ -1,0 +1,63 @@
+{
+    "id": "rode_biet_gember_herstel",
+    "name": "Rode Biet, Gember & Sinaasappel Herstelshake",
+    "goal": [
+      "herstel",
+      "ontstekingsremming",
+      "doorbloeding"
+    ],
+    "diet": [
+      "vegan",
+      "lactosevrij",
+      "glutenvrij"
+    ],
+    "ingredients": [
+      {
+        "item": "gekookte rode biet",
+        "amount": "1 stuks (medium)",
+        "nutrients": [
+          "nitraten",
+          "foliumzuur",
+          "mangaan"
+        ]
+      },
+      {
+        "item": "verse gember",
+        "amount": "1 cm stukje",
+        "nutrients": [
+          "gingerolen",
+          "antioxidanten"
+        ]
+      },
+      {
+        "item": "sinaasappel (geperst)",
+        "amount": "1 stuks",
+        "nutrients": [
+          "vitamine C",
+          "foliumzuur",
+          "flavonoïden"
+        ]
+      },
+      {
+        "item": "kokoswater",
+        "amount": "200 ml",
+        "nutrients": [
+          "kalium",
+          "elektrolyten",
+          "magnesium"
+        ]
+      },
+      {
+        "item": "kurkumapoeder",
+        "amount": "0.5 tl",
+        "nutrients": [
+          "curcumine",
+          "antioxidanten"
+        ],
+        "optional": true
+      }
+    ],
+    "instructions": "Snijd de biet in blokjes. Voeg alle ingrediënten toe aan de blender en mix 90 seconden op hoge snelheid. Zeef indien gewenst voor een gladdere textuur.",
+    "nutritional_benefit": "Nitraten uit biet verbeteren de doorbloeding en zuurstofopname — ideaal na intensieve training of bij spierpijn.",
+    "disclaimer": "Dit is algemene voedingsinformatie, geen medisch advies."
+  }

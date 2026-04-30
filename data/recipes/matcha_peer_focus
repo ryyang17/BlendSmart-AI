@@ -1,0 +1,69 @@
+ {
+    "id": "matcha_peer_focus",
+    "name": "Matcha, Peer & Munt Focusshake",
+    "goal": [
+      "focus",
+      "energie",
+      "antioxidanten"
+    ],
+    "diet": [
+      "vegan",
+      "lactosevrij",
+      "glutenvrij"
+    ],
+    "ingredients": [
+      {
+        "item": "matcha poeder (ceremonieel grade)",
+        "amount": "1 tl",
+        "nutrients": [
+          "L-theanine",
+          "catechinen",
+          "cafeïne"
+        ]
+      },
+      {
+        "item": "rijpe peer",
+        "amount": "1 stuks",
+        "nutrients": [
+          "vezels",
+          "vitamine C",
+          "koper"
+        ]
+      },
+      {
+        "item": "verse munt",
+        "amount": "10 blaadjes",
+        "nutrients": [
+          "menthol",
+          "antioxidanten",
+          "vitamine A"
+        ]
+      },
+      {
+        "item": "havermelk",
+        "amount": "200 ml",
+        "nutrients": [
+          "bètaglucaan",
+          "vitamine B-complex"
+        ]
+      },
+      {
+        "item": "agavesiroop",
+        "amount": "1 tl",
+        "nutrients": [
+          "fructose",
+          "inuline"
+        ],
+        "optional": true
+      },
+      {
+        "item": "ijsblokjes",
+        "amount": "4 stuks",
+        "nutrients": [],
+        "optional": true
+      }
+    ],
+    "instructions": "Los het matchapoeder op in een klein scheutje warm water (niet kokend). Voeg vervolgens alle overige ingrediënten toe aan de blender en mix 60 seconden. Serveer direct over ijs.",
+    "nutritional_benefit": "L-theanine in combinatie met cafeïne geeft een heldere, stabiele energie zonder de pieken en dalen van koffie — ideaal voor diepe concentratie.",
+    "disclaimer": "Dit is algemene voedingsinformatie, geen medisch advies."
+  }
