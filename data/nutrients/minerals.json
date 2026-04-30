@@ -1,9 +1,420 @@
 {
-  "source": "RIVM Voedingsnormen",
-  "minerals": [
-    {"name": "IJzer", "adh_adults_mg": 11, "function": "Zuurstoftransport, energiemetabolisme", "sources": ["spinazie", "peulvruchten", "pompoen"], "note": "Vitamine C verhoogt opname van plantaardig ijzer"},
-    {"name": "Calcium", "adh_adults_mg": 1000, "function": "Botgezondheid, spierwerking", "sources": ["verrijkte plantaardige melk", "boerenkool", "amandelen"]},
-    {"name": "Magnesium", "adh_adults_mg": 300, "function": "Spier- en zenuwfunctie, energieproductie", "sources": ["cacao", "spinazie", "pompoenpitten", "banaan"]},
-    {"name": "Zink", "adh_adults_mg": 9, "function": "Immuunsysteem, wondgenezing", "sources": ["pompoenpitten", "lijnzaad", "haver"]}
+"source": "RIVM Voedingsnormen / Voedingscentrum / EFSA",
+"notitie": "ADH = Aanbevolen Dagelijkse Hoeveelheid. Waarden zijn algemene richtlijnen voor gezonde volwassenen (19-50 jaar). Raadpleeg een diëtist voor persoonlijk advies.",
+"mineralen": [
+    {
+      "id": "calcium",
+      "naam": "Calcium",
+      "eenheid": "mg",
+      "adh": {
+        "man": 1000,
+        "vrouw": 1000,
+        "zwanger": 1000,
+        "borstvoeding": 1000,
+        "70_plus": 1200
+      },
+      "bovengrens_veilig": 2500,
+      "functies": [
+        "Sterke botten en tanden",
+        "Spiersamentrekking (inclusief hartspier)",
+        "Zenuwgeleiding",
+        "Bloedstolling"
+      ],
+      "tekort_symptomen": [
+        "Botontkalking (osteoporose)",
+        "Spierkrampen",
+        "Tandproblemen"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Boerenkool",
+          "hoeveelheid_per_100g": 150,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Broccoli",
+          "hoeveelheid_per_100g": 47,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Amandelen",
+          "hoeveelheid_per_100g": 264,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Sojadrank (verrijkt)",
+          "hoeveelheid_per_100g": 120,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Vijgen (gedroogd)",
+          "hoeveelheid_per_100g": 162,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Sinaasappel",
+          "hoeveelheid_per_100g": 40,
+          "eenheid": "mg"
+        }
+      ],
+      "opname_tip": "Vitamine D verbetert calciumopname — combineer groene smoothie met vitamine D-bron"
+    },
+    {
+      "id": "ijzer",
+      "naam": "IJzer",
+      "eenheid": "mg",
+      "adh": {
+        "man": 11,
+        "vrouw": 16,
+        "zwanger": 16,
+        "borstvoeding": 11,
+        "50_plus_vrouw": 11
+      },
+      "bovengrens_veilig": 45,
+      "functies": [
+        "Zuurstoftransport via hemoglobine",
+        "Energiestofwisseling",
+        "Immuunsysteem ondersteunen",
+        "Concentratie en cognitie"
+      ],
+      "tekort_symptomen": [
+        "Vermoeidheid en bleekheid",
+        "Kortademigheid",
+        "Bloedarmoede (anemie)",
+        "Concentratieproblemen"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Spinazie",
+          "hoeveelheid_per_100g": 2.7,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Pompoenpitten",
+          "hoeveelheid_per_100g": 8.8,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Lijnzaad",
+          "hoeveelheid_per_100g": 5.7,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Cacao (rauwe cacaopoeder)",
+          "hoeveelheid_per_100g": 13.9,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Gedroogde abrikozen",
+          "hoeveelheid_per_100g": 3.4,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Hennepzaad",
+          "hoeveelheid_per_100g": 7.95,
+          "eenheid": "mg"
+        }
+      ],
+      "opname_tip": "Non-haem ijzer (plantaardig) beter opneembaar met vitamine C — voeg kiwi of sinaasappel toe aan smoothie"
+    },
+    {
+      "id": "magnesium",
+      "naam": "Magnesium",
+      "eenheid": "mg",
+      "adh": {
+        "man": 350,
+        "vrouw": 300,
+        "zwanger": 300,
+        "borstvoeding": 300
+      },
+      "bovengrens_veilig": 250,
+      "functies": [
+        "Meer dan 300 enzymatische reacties",
+        "Spierfunctie en ontspanning",
+        "Zenuwstelsel kalmeren",
+        "Energiestofwisseling",
+        "Botgezondheid",
+        "Bloedsuikerregulatie"
+      ],
+      "tekort_symptomen": [
+        "Spierkrampen en -trillingen",
+        "Vermoeidheid en prikkelbaarheid",
+        "Slaapproblemen",
+        "Hoofdpijn en migraine"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Pompoenpitten",
+          "hoeveelheid_per_100g": 592,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Cacao (rauw cacaopoeder)",
+          "hoeveelheid_per_100g": 499,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Amandelen",
+          "hoeveelheid_per_100g": 270,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Spinazie",
+          "hoeveelheid_per_100g": 79,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Banaan",
+          "hoeveelheid_per_100g": 27,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Avocado",
+          "hoeveelheid_per_100g": 29,
+          "eenheid": "mg"
+        }
+      ],
+      "opname_tip": "Cacao en pompoenpitten zijn uitstekende magnesiumsources — ideaal voor herstel-smoothie"
+    },
+    {
+      "id": "zink",
+      "naam": "Zink",
+      "eenheid": "mg",
+      "adh": {
+        "man": 11,
+        "vrouw": 8,
+        "zwanger": 11,
+        "borstvoeding": 12
+      },
+      "bovengrens_veilig": 25,
+      "functies": [
+        "Immuunsysteem ondersteunen",
+        "Wondgenezing",
+        "DNA-aanmaak en celdeling",
+        "Smaak- en reukvermogen",
+        "Hormoonproductie (testosteron)"
+      ],
+      "tekort_symptomen": [
+        "Verminderde weerstand",
+        "Trage wondgenezing",
+        "Verlies van smaak en reuk",
+        "Haaruitval"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Pompoenpitten",
+          "hoeveelheid_per_100g": 7.8,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Hennepzaad",
+          "hoeveelheid_per_100g": 9.9,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Cashewnoten",
+          "hoeveelheid_per_100g": 5.6,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Lijnzaad",
+          "hoeveelheid_per_100g": 4.3,
+          "eenheid": "mg"
+        }
+      ],
+      "opname_tip": "Fytinezuur in granen remt zinkopname — combineer met vitamine C of weekvloeistof zaden"
+    },
+    {
+      "id": "kalium",
+      "naam": "Kalium",
+      "eenheid": "mg",
+      "adh": {
+        "man": 3500,
+        "vrouw": 3500,
+        "zwanger": 3500,
+        "borstvoeding": 4000
+      },
+      "bovengrens_veilig": null,
+      "functies": [
+        "Bloeddrukregulatie (natriumtegenwicht)",
+        "Hartritme reguleren",
+        "Vochtbalans in cellen",
+        "Spierfunctie en -herstel",
+        "Zenuwgeleiding"
+      ],
+      "tekort_symptomen": [
+        "Spierkrampen en -zwakte",
+        "Vermoeidheid",
+        "Onregelmatige hartslag",
+        "Hoge bloeddruk"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Banaan",
+          "hoeveelheid_per_100g": 358,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Avocado",
+          "hoeveelheid_per_100g": 485,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Spinazie",
+          "hoeveelheid_per_100g": 558,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Zoete aardappel",
+          "hoeveelheid_per_100g": 337,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Kokoswater",
+          "hoeveelheid_per_100g": 250,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Mango",
+          "hoeveelheid_per_100g": 168,
+          "eenheid": "mg"
+        }
+      ],
+      "opname_tip": "Kokoswater als smoothie-base is een uitstekende bron — ideaal voor herstel na sport"
+    },
+    {
+      "id": "natrium",
+      "naam": "Natrium",
+      "eenheid": "mg",
+      "adh": {
+        "man": 1500,
+        "vrouw": 1500,
+        "zwanger": 1500,
+        "borstvoeding": 1500
+      },
+      "bovengrens_veilig": 2300,
+      "functies": [
+        "Vochtbalans reguleren",
+        "Zenuwgeleiding",
+        "Spiersamentrekking"
+      ],
+      "tekort_symptomen": [
+        "Zeldzaam bij normaal dieet",
+        "Spierkrampen bij overmatig zweten"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Kokoswater",
+          "hoeveelheid_per_100g": 105,
+          "eenheid": "mg"
+        }
+      ],
+      "opname_tip": "Smoothies zijn van nature natriumarm — voordeel voor mensen die zoutinname willen beperken"
+    },
+    {
+      "id": "fosfor",
+      "naam": "Fosfor",
+      "eenheid": "mg",
+      "adh": {
+        "man": 700,
+        "vrouw": 700,
+        "zwanger": 700,
+        "borstvoeding": 700
+      },
+      "bovengrens_veilig": 3000,
+      "functies": [
+        "Botvorming samen met calcium",
+        "Energiestofwisseling (ATP)",
+        "DNA- en RNA-opbouw"
+      ],
+      "tekort_symptomen": [
+        "Zeldzaam bij gevarieerd dieet",
+        "Botpijn en -verlies"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Pompoenpitten",
+          "hoeveelheid_per_100g": 1233,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Amandelen",
+          "hoeveelheid_per_100g": 484,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Havermout",
+          "hoeveelheid_per_100g": 410,
+          "eenheid": "mg"
+        }
+      ],
+      "opname_tip": null
+    },
+    {
+      "id": "selenium",
+      "naam": "Selenium",
+      "eenheid": "mcg",
+      "adh": {
+        "man": 70,
+        "vrouw": 60,
+        "zwanger": 60,
+        "borstvoeding": 70
+      },
+      "bovengrens_veilig": 300,
+      "functies": [
+        "Krachtige antioxidant",
+        "Schildklierfunctie",
+        "Immuunsysteem ondersteunen",
+        "DNA-bescherming"
+      ],
+      "tekort_symptomen": [
+        "Verminderde weerstand",
+        "Schildklierproblemen",
+        "Spierpijn"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Paranoten (2 stuks = ~70 mcg)",
+          "hoeveelheid_per_100g": 1917,
+          "eenheid": "mcg"
+        },
+        {
+          "ingredient": "Zonnebloempitten",
+          "hoeveelheid_per_100g": 53,
+          "eenheid": "mcg"
+        }
+      ],
+      "opname_tip": "2 paranoten per dag dekt al je selenium ADH — eenvoudig toe te voegen aan smoothie"
+    },
+    {
+      "id": "jodium",
+      "naam": "Jodium",
+      "eenheid": "mcg",
+      "adh": {
+        "man": 150,
+        "vrouw": 150,
+        "zwanger": 175,
+        "borstvoeding": 200
+      },
+      "bovengrens_veilig": 600,
+      "functies": [
+        "Schildklierhormonenproductie",
+        "Stofwisseling reguleren",
+        "Groei en ontwikkeling"
+      ],
+      "tekort_symptomen": [
+        "Struma (vergrote schildklier)",
+        "Vermoeidheid en koude-intolerantie",
+        "Concentratieproblemen"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Algen/zeewier (nori)",
+          "hoeveelheid_per_100g": 37,
+          "eenheid": "mcg"
+        }
+      ],
+      "opname_tip": "Weinig aanwezig in groenten/fruit — smoothies zijn geen hoofdbron van jodium"
+    }
   ]
 }

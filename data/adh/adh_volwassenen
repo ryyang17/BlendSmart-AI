@@ -1,0 +1,184 @@
+{
+  "bron": "Voedingscentrum",
+  "versie": "12/2024",
+  "doelgroep": "volwassenen",
+  "notities": [
+    "De hoeveelheden gelden voor voedingsmiddelen zoals je ze eet.",
+    "Alleen bij vlees en vis geldt de hoeveelheid in gram zoals je het koopt in de winkel.",
+    "Eet je geen vlees? Neem dan elke week extra: 1 portie peulvruchten, 2 porties noten en 1 ei.",
+    "Ben je zwanger? Neem dan 2 keer per week vis: 1x 100g vette vis (zalm/forel) en 1x 100g magere vis.",
+    "Geef je borstvoeding? De hoeveelheden gelden tot 6 maanden borstvoeding geven.",
+    "Heb je een hart- of vaatziekte? Neem dan 1 tot 2 keer per week vis.",
+    "Plantaardige zuivelalternatieven: soja- of erwtendrink of sojayoghurt verrijkt met calcium, vitamine B2 en vitamine B12 is de meest volwaardige vervanger."
+  ],
+  "leeftijdsgroepen": [
+    {
+      "groep": "19-50 jaar",
+      "geslacht": "man",
+      "dagelijks": {
+        "groente_gram": 250,
+        "fruit_porties": 2,
+        "volkoren_boterhammen": { "min": 6, "max": 8 },
+        "graanproducten_of_aardappelen_opscheplepels": { "min": 4, "max": 5 },
+        "ongezouten_noten_gram": 25,
+        "zuivel_porties": { "min": 2, "max": 3 },
+        "kaas_gram": 40,
+        "olien_en_vetten_gram": 65,
+        "dranken_liter": { "min": 1.5, "max": 2 }
+      },
+      "wekelijks": {
+        "peulvruchten_opscheplepels": { "min": 2, "max": 3 },
+        "vis_gram": 100,
+        "eieren": { "min": 2, "max": 3 },
+        "vlees_gram_max": 500
+      }
+    },
+    {
+      "groep": "19-50 jaar",
+      "geslacht": "vrouw",
+      "dagelijks": {
+        "groente_gram": 250,
+        "fruit_porties": 2,
+        "volkoren_boterhammen": { "min": 4, "max": 5 },
+        "graanproducten_of_aardappelen_opscheplepels": { "min": 4, "max": 5 },
+        "ongezouten_noten_gram": 25,
+        "zuivel_porties": { "min": 2, "max": 3 },
+        "kaas_gram": 40,
+        "olien_en_vetten_gram": 40,
+        "dranken_liter": { "min": 1.5, "max": 2 }
+      },
+      "wekelijks": {
+        "peulvruchten_opscheplepels": { "min": 2, "max": 3 },
+        "vis_gram": 100,
+        "eieren": { "min": 2, "max": 3 },
+        "vlees_gram_max": 500
+      }
+    },
+    {
+      "groep": "19-50 jaar",
+      "geslacht": "zwanger",
+      "dagelijks": {
+        "groente_gram": 250,
+        "fruit_porties": 2,
+        "volkoren_boterhammen": { "min": 4, "max": 7 },
+        "graanproducten_of_aardappelen_opscheplepels": { "min": 4, "max": 5 },
+        "ongezouten_noten_gram": 25,
+        "zuivel_porties": { "min": 3, "max": 4 },
+        "kaas_gram": 40,
+        "olien_en_vetten_gram": { "min": 40, "max": 50 },
+        "dranken_liter": { "min": 1.5, "max": 2 }
+      },
+      "wekelijks": {
+        "peulvruchten_opscheplepels": { "min": 2, "max": 3 },
+        "vis_gram": 200,
+        "eieren": { "min": 2, "max": 3 },
+        "vlees_gram_max": 500
+      }
+    },
+    {
+      "groep": "19-50 jaar",
+      "geslacht": "borstvoeding",
+      "dagelijks": {
+        "groente_gram": 250,
+        "fruit_porties": 2,
+        "volkoren_boterhammen": { "min": 6, "max": 7 },
+        "graanproducten_of_aardappelen_opscheplepels": { "min": 4, "max": 5 },
+        "ongezouten_noten_gram": 50,
+        "zuivel_porties": { "min": 3, "max": 4 },
+        "kaas_gram": 40,
+        "olien_en_vetten_gram": 50,
+        "dranken_liter": 2
+      },
+      "wekelijks": {
+        "peulvruchten_opscheplepels": { "min": 2, "max": 3 },
+        "vis_gram": 100,
+        "eieren": { "min": 2, "max": 3 },
+        "vlees_gram_max": 625
+      }
+    },
+    {
+      "groep": "51-69 jaar",
+      "geslacht": "man",
+      "dagelijks": {
+        "groente_gram": 250,
+        "fruit_porties": 2,
+        "volkoren_boterhammen": { "min": 5, "max": 7 },
+        "graanproducten_of_aardappelen_opscheplepels": 4,
+        "ongezouten_noten_gram": 25,
+        "zuivel_porties": 3,
+        "kaas_gram": 40,
+        "olien_en_vetten_gram": { "min": 50, "max": 65 },
+        "dranken_liter": { "min": 1.5, "max": 2 }
+      },
+      "wekelijks": {
+        "peulvruchten_opscheplepels": { "min": 2, "max": 3 },
+        "vis_gram": 100,
+        "eieren": { "min": 2, "max": 3 },
+        "vlees_gram_max": 500
+      }
+    },
+    {
+      "groep": "51-69 jaar",
+      "geslacht": "vrouw",
+      "dagelijks": {
+        "groente_gram": 250,
+        "fruit_porties": 2,
+        "volkoren_boterhammen": { "min": 3, "max": 4 },
+        "graanproducten_of_aardappelen_opscheplepels": { "min": 3, "max": 4 },
+        "ongezouten_noten_gram": 15,
+        "zuivel_porties": { "min": 3, "max": 4 },
+        "kaas_gram": 40,
+        "olien_en_vetten_gram": 40,
+        "dranken_liter": { "min": 1.5, "max": 2 }
+      },
+      "wekelijks": {
+        "peulvruchten_opscheplepels": { "min": 2, "max": 3 },
+        "vis_gram": 100,
+        "eieren": { "min": 2, "max": 3 },
+        "vlees_gram_max": 500
+      }
+    },
+    {
+      "groep": "70 jaar en ouder",
+      "geslacht": "man",
+      "dagelijks": {
+        "groente_gram": 250,
+        "fruit_porties": 2,
+        "volkoren_boterhammen": { "min": 4, "max": 6 },
+        "graanproducten_of_aardappelen_opscheplepels": 4,
+        "ongezouten_noten_gram": 15,
+        "zuivel_porties": 4,
+        "kaas_gram": 40,
+        "olien_en_vetten_gram": 55,
+        "dranken_liter": { "min": 1.5, "max": 2 }
+      },
+      "wekelijks": {
+        "peulvruchten_opscheplepels": { "min": 2, "max": 3 },
+        "vis_gram": 100,
+        "eieren": { "min": 2, "max": 3 },
+        "vlees_gram_max": 500
+      }
+    },
+    {
+      "groep": "70 jaar en ouder",
+      "geslacht": "vrouw",
+      "dagelijks": {
+        "groente_gram": 250,
+        "fruit_porties": 2,
+        "volkoren_boterhammen": { "min": 3, "max": 4 },
+        "graanproducten_of_aardappelen_opscheplepels": 3,
+        "ongezouten_noten_gram": 15,
+        "zuivel_porties": 4,
+        "kaas_gram": 40,
+        "olien_en_vetten_gram": 35,
+        "dranken_liter": { "min": 1.5, "max": 2 }
+      },
+      "wekelijks": {
+        "peulvruchten_opscheplepels": { "min": 2, "max": 3 },
+        "vis_gram": 100,
+        "eieren": { "min": 2, "max": 3 },
+        "vlees_gram_max": 500
+      }
+    }
+  ]
+}

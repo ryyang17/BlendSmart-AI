@@ -1,0 +1,140 @@
+{
+  "bron": "Voedingscentrum",
+  "versie": "12/2024",
+  "doelgroep": "kinderen",
+  "notities": [
+    "De hoeveelheden gelden voor voedingsmiddelen zoals je ze eet.",
+    "Alleen bij vlees en vis geldt de hoeveelheid in gram zoals je het koopt in de winkel.",
+    "Eet je geen vlees? Neem dan elke week extra: 1 portie peulvruchten, 2 porties noten en 1 ei.",
+    "Voor kinderen jonger dan 4 jaar: notenpasta zonder toegevoegd suiker en zout in plaats van nootjes (verstikkingsrisico).",
+    "Plantaardige zuivelalternatieven: soja- of erwtendrink of sojayoghurt verrijkt met calcium, vitamine B2 en vitamine B12 is de meest volwaardige vervanger."
+  ],
+  "leeftijdsgroepen": [
+    {
+      "groep": "1-3 jaar",
+      "geslacht": "jongen en meisje",
+      "dagelijks": {
+        "groente_gram": { "min": 50, "max": 100 },
+        "fruit_porties": 1.5,
+        "volkoren_boterhammen": { "min": 2, "max": 3 },
+        "graanproducten_of_aardappelen_opscheplepels": { "min": 1, "max": 2 },
+        "ongezouten_noten_gram": 15,
+        "zuivel_porties": 2,
+        "kaas_gram": null,
+        "olien_en_vetten_gram": 30,
+        "dranken_liter": 1
+      },
+      "wekelijks": {
+        "peulvruchten_opscheplepels": 0.5,
+        "vis_gram": 50,
+        "eieren": { "min": 1, "max": 2 },
+        "vlees_gram_max": 250
+      }
+    },
+    {
+      "groep": "4-8 jaar",
+      "geslacht": "jongen en meisje",
+      "dagelijks": {
+        "groente_gram": { "min": 100, "max": 150 },
+        "fruit_porties": 1.5,
+        "volkoren_boterhammen": { "min": 2, "max": 4 },
+        "graanproducten_of_aardappelen_opscheplepels": { "min": 2, "max": 3 },
+        "ongezouten_noten_gram": 15,
+        "zuivel_porties": 2,
+        "kaas_gram": 20,
+        "olien_en_vetten_gram": 30,
+        "dranken_liter": { "min": 1, "max": 1.5 }
+      },
+      "wekelijks": {
+        "peulvruchten_opscheplepels": { "min": 1, "max": 2 },
+        "vis_gram": { "min": 50, "max": 60 },
+        "eieren": { "min": 2, "max": 3 },
+        "vlees_gram_max": 250
+      }
+    },
+    {
+      "groep": "9-13 jaar",
+      "geslacht": "jongen",
+      "dagelijks": {
+        "groente_gram": { "min": 150, "max": 200 },
+        "fruit_porties": 2,
+        "volkoren_boterhammen": { "min": 3, "max": 6 },
+        "graanproducten_of_aardappelen_opscheplepels": { "min": 3, "max": 5 },
+        "ongezouten_noten_gram": 25,
+        "zuivel_porties": 3,
+        "kaas_gram": 20,
+        "olien_en_vetten_gram": { "min": 30, "max": 45 },
+        "dranken_liter": { "min": 1, "max": 1.5 }
+      },
+      "wekelijks": {
+        "peulvruchten_opscheplepels": 2,
+        "vis_gram": 100,
+        "eieren": { "min": 2, "max": 3 },
+        "vlees_gram_max": 500
+      }
+    },
+    {
+      "groep": "9-13 jaar",
+      "geslacht": "meisje",
+      "dagelijks": {
+        "groente_gram": { "min": 150, "max": 200 },
+        "fruit_porties": 2,
+        "volkoren_boterhammen": { "min": 3, "max": 5 },
+        "graanproducten_of_aardappelen_opscheplepels": { "min": 3, "max": 5 },
+        "ongezouten_noten_gram": 25,
+        "zuivel_porties": 3,
+        "kaas_gram": 20,
+        "olien_en_vetten_gram": { "min": 30, "max": 40 },
+        "dranken_liter": { "min": 1, "max": 1.5 }
+      },
+      "wekelijks": {
+        "peulvruchten_opscheplepels": 2,
+        "vis_gram": 100,
+        "eieren": { "min": 2, "max": 3 },
+        "vlees_gram_max": 500
+      }
+    },
+    {
+      "groep": "14-18 jaar",
+      "geslacht": "jongen",
+      "dagelijks": {
+        "groente_gram": 250,
+        "fruit_porties": 2,
+        "volkoren_boterhammen": { "min": 6, "max": 8 },
+        "graanproducten_of_aardappelen_opscheplepels": 6,
+        "ongezouten_noten_gram": 25,
+        "zuivel_porties": 4,
+        "kaas_gram": 40,
+        "olien_en_vetten_gram": 55,
+        "dranken_liter": { "min": 1.5, "max": 2 }
+      },
+      "wekelijks": {
+        "peulvruchten_opscheplepels": { "min": 2, "max": 3 },
+        "vis_gram": 100,
+        "eieren": { "min": 2, "max": 3 },
+        "vlees_gram_max": 500
+      }
+    },
+    {
+      "groep": "14-18 jaar",
+      "geslacht": "meisje",
+      "dagelijks": {
+        "groente_gram": 250,
+        "fruit_porties": 2,
+        "volkoren_boterhammen": { "min": 4, "max": 5 },
+        "graanproducten_of_aardappelen_opscheplepels": { "min": 4, "max": 5 },
+        "ongezouten_noten_gram": 25,
+        "zuivel_porties": 3,
+        "kaas_gram": 40,
+        "olien_en_vetten_gram": 40,
+        "dranken_liter": { "min": 1.5, "max": 2 }
+      },
+      "wekelijks": {
+        "peulvruchten_opscheplepels": { "min": 2, "max": 3 },
+        "vis_gram": 100,
+        "eieren": { "min": 2, "max": 3 },
+        "vlees_gram_max": 500
+      }
+    }
+  ]
+}

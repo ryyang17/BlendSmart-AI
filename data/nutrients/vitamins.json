@@ -1,11 +1,560 @@
 {
-  "source": "RIVM Voedingsnormen",
-  "vitamins": [
-    {"name": "Vitamine A", "adh_adults_mcg": 800, "function": "Gezichtsvermogen, immuunsysteem", "sources": ["wortel", "zoete aardappel", "spinazie"]},
-    {"name": "Vitamine B12", "adh_adults_mcg": 2.8, "function": "Zenuwstelsel, rode bloedcellen", "sources": ["verrijkte havermelk", "verrijkte voedingsgist"]},
-    {"name": "Vitamine C", "adh_adults_mg": 75, "function": "Antioxidant, immuunsysteem, ijzeropname", "sources": ["sinaasappel", "kiwi", "rode paprika", "aardbei"]},
-    {"name": "Vitamine D", "adh_adults_mcg": 10, "function": "Botgezondheid, immuunsysteem", "sources": ["zonlicht", "verrijkte producten"]},
-    {"name": "Vitamine E", "adh_adults_mg": 11, "function": "Antioxidant, celbescherming", "sources": ["amandelen", "zonnebloemolie", "avocado"]},
-    {"name": "Vitamine K", "adh_adults_mcg": 70, "function": "Bloedstolling, botgezondheid", "sources": ["boerenkool", "spinazie", "broccoli"]}
+  "bron": "RIVM Voedingsnormen / Voedingscentrum / EFSA",
+  "versie": "2024",
+  "taal": "nl",
+  "notitie": "ADH = Aanbevolen Dagelijkse Hoeveelheid. Waarden zijn algemene richtlijnen voor gezonde volwassenen (19-50 jaar). Raadpleeg een diëtist voor persoonlijk advies.",
+  "vitaminen": [
+    {
+      "id": "vitamine_a",
+      "naam": "Vitamine A",
+      "ook_bekend_als": [
+        "Retinol",
+        "Bètacaroteen (provitamine A)"
+      ],
+      "eenheid": "mcg RE",
+      "adh": {
+        "man": 800,
+        "vrouw": 680,
+        "zwanger": 750,
+        "borstvoeding": 1200
+      },
+      "bovengrens_veilig": 3000,
+      "functies": [
+        "Gezichtsvermogen (nachtblindheid voorkomen)",
+        "Immuunsysteem ondersteunen",
+        "Celgroei en huidgezondheid",
+        "Slijmvliezen gezond houden"
+      ],
+      "tekort_symptomen": [
+        "Nachtblindheid",
+        "Droge huid en slijmvliezen",
+        "Verminderde weerstand"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Wortel",
+          "hoeveelheid_per_100g": 835,
+          "eenheid": "mcg RE"
+        },
+        {
+          "ingredient": "Zoete aardappel",
+          "hoeveelheid_per_100g": 709,
+          "eenheid": "mcg RE"
+        },
+        {
+          "ingredient": "Spinazie",
+          "hoeveelheid_per_100g": 469,
+          "eenheid": "mcg RE"
+        },
+        {
+          "ingredient": "Mango",
+          "hoeveelheid_per_100g": 54,
+          "eenheid": "mcg RE"
+        },
+        {
+          "ingredient": "Abrikoos",
+          "hoeveelheid_per_100g": 96,
+          "eenheid": "mcg RE"
+        }
+      ],
+      "oplosbaarheid": "vetoplosbaar",
+      "opname_tip": "Beter opneembaar samen met een beetje vet (bijv. lijnzaadolie in smoothie)"
+    },
+    {
+      "id": "vitamine_b1",
+      "naam": "Vitamine B1",
+      "ook_bekend_als": [
+        "Thiamine"
+      ],
+      "eenheid": "mg",
+      "adh": {
+        "man": 1.1,
+        "vrouw": 0.9,
+        "zwanger": 1,
+        "borstvoeding": 1.2
+      },
+      "bovengrens_veilig": null,
+      "functies": [
+        "Energiestofwisseling (koolhydraten omzetten)",
+        "Zenuwstelsel gezond houden",
+        "Hartfunctie ondersteunen"
+      ],
+      "tekort_symptomen": [
+        "Vermoeidheid",
+        "Concentratieproblemen",
+        "Spierkrampen"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Zonnebloempitten",
+          "hoeveelheid_per_100g": 1.48,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Erwten",
+          "hoeveelheid_per_100g": 0.27,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Banaan",
+          "hoeveelheid_per_100g": 0.04,
+          "eenheid": "mg"
+        }
+      ],
+      "oplosbaarheid": "wateroplosbaar",
+      "opname_tip": "Gaat verloren bij koken; rauw fruit/groenten in smoothie is ideaal"
+    },
+    {
+      "id": "vitamine_b2",
+      "naam": "Vitamine B2",
+      "ook_bekend_als": [
+        "Riboflavine"
+      ],
+      "eenheid": "mg",
+      "adh": {
+        "man": 1.6,
+        "vrouw": 1.3,
+        "zwanger": 1.5,
+        "borstvoeding": 1.7
+      },
+      "bovengrens_veilig": null,
+      "functies": [
+        "Energiestofwisseling",
+        "Celgroei en herstel",
+        "Antioxidant werking"
+      ],
+      "tekort_symptomen": [
+        "Scheurtjes mondhoeken",
+        "Ontstoken tong",
+        "Lichtgevoeligheid ogen"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Amandelen",
+          "hoeveelheid_per_100g": 1.01,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Spinazie",
+          "hoeveelheid_per_100g": 0.19,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Havermout",
+          "hoeveelheid_per_100g": 0.14,
+          "eenheid": "mg"
+        }
+      ],
+      "oplosbaarheid": "wateroplosbaar",
+      "opname_tip": "Lichtgevoelig — blend kort en bewaar smoothie niet te lang"
+    },
+    {
+      "id": "vitamine_b3",
+      "naam": "Vitamine B3",
+      "ook_bekend_als": [
+        "Niacine",
+        "Niacinamide"
+      ],
+      "eenheid": "mg NE",
+      "adh": {
+        "man": 17,
+        "vrouw": 13,
+        "zwanger": 15,
+        "borstvoeding": 17
+      },
+      "bovengrens_veilig": 35,
+      "functies": [
+        "Energiestofwisseling",
+        "DNA-herstel",
+        "Huidgezondheid"
+      ],
+      "tekort_symptomen": [
+        "Pellagra (huid-, darm-, hersenaandoening)",
+        "Vermoeidheid",
+        "Concentratieproblemen"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Pinda's",
+          "hoeveelheid_per_100g": 14.3,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Zonnebloempitten",
+          "hoeveelheid_per_100g": 8.3,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Avocado",
+          "hoeveelheid_per_100g": 1.7,
+          "eenheid": "mg"
+        }
+      ],
+      "oplosbaarheid": "wateroplosbaar",
+      "opname_tip": null
+    },
+    {
+      "id": "vitamine_b6",
+      "naam": "Vitamine B6",
+      "ook_bekend_als": [
+        "Pyridoxine"
+      ],
+      "eenheid": "mg",
+      "adh": {
+        "man": 1.5,
+        "vrouw": 1.3,
+        "zwanger": 1.9,
+        "borstvoeding": 2
+      },
+      "bovengrens_veilig": 25,
+      "functies": [
+        "Eiwitstofwisseling",
+        "Aanmaak neurotransmitters (serotonine, dopamine)",
+        "Immuunsysteem ondersteunen",
+        "Hormoonbalans"
+      ],
+      "tekort_symptomen": [
+        "Prikkelbaarheid en depressie",
+        "Huidproblemen",
+        "Bloedarmoede"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Banaan",
+          "hoeveelheid_per_100g": 0.37,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Avocado",
+          "hoeveelheid_per_100g": 0.29,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Spinazie",
+          "hoeveelheid_per_100g": 0.24,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Pistachenoten",
+          "hoeveelheid_per_100g": 1.7,
+          "eenheid": "mg"
+        }
+      ],
+      "oplosbaarheid": "wateroplosbaar",
+      "opname_tip": null
+    },
+    {
+      "id": "vitamine_b9",
+      "naam": "Vitamine B9",
+      "ook_bekend_als": [
+        "Foliumzuur",
+        "Folaat"
+      ],
+      "eenheid": "mcg",
+      "adh": {
+        "man": 300,
+        "vrouw": 300,
+        "zwanger": 400,
+        "borstvoeding": 400
+      },
+      "bovengrens_veilig": 1000,
+      "functies": [
+        "Celdelings- en groeiprocessen",
+        "DNA-aanmaak",
+        "Neurale buisvorming (zwangerschap)",
+        "Bloedaanmaak"
+      ],
+      "tekort_symptomen": [
+        "Bloedarmoede",
+        "Vermoeidheid",
+        "Neurale buisdefecten bij baby (bij zwangerschap)"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Spinazie",
+          "hoeveelheid_per_100g": 194,
+          "eenheid": "mcg"
+        },
+        {
+          "ingredient": "Avocado",
+          "hoeveelheid_per_100g": 81,
+          "eenheid": "mcg"
+        },
+        {
+          "ingredient": "Broccoli",
+          "hoeveelheid_per_100g": 63,
+          "eenheid": "mcg"
+        },
+        {
+          "ingredient": "Sinaasappel",
+          "hoeveelheid_per_100g": 30,
+          "eenheid": "mcg"
+        },
+        {
+          "ingredient": "Banaan",
+          "hoeveelheid_per_100g": 20,
+          "eenheid": "mcg"
+        }
+      ],
+      "oplosbaarheid": "wateroplosbaar",
+      "opname_tip": "Gevoelig voor hitte — rauw verwerken in smoothie behoudt meer folaat"
+    },
+    {
+      "id": "vitamine_b12",
+      "naam": "Vitamine B12",
+      "ook_bekend_als": [
+        "Cobalamine"
+      ],
+      "eenheid": "mcg",
+      "adh": {
+        "man": 2.8,
+        "vrouw": 2.8,
+        "zwanger": 3.2,
+        "borstvoeding": 3.8
+      },
+      "bovengrens_veilig": null,
+      "functies": [
+        "Zenuwstelsel gezond houden",
+        "Bloedaanmaak (rode bloedcellen)",
+        "DNA-aanmaak",
+        "Energiestofwisseling"
+      ],
+      "tekort_symptomen": [
+        "Bloedarmoede",
+        "Tintelingen in handen/voeten",
+        "Vermoeidheid en concentratieproblemen",
+        "Risico bij veganisten"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Verrijkte plantaardige melk (soja/haver)",
+          "hoeveelheid_per_100g": 0.38,
+          "eenheid": "mcg"
+        },
+        {
+          "ingredient": "Verrijkte voedingsgist",
+          "hoeveelheid_per_100g": 40,
+          "eenheid": "mcg"
+        }
+      ],
+      "oplosbaarheid": "wateroplosbaar",
+      "opname_tip": "Nauwelijks aanwezig in plantaardige producten — bij vegan dieet supplement overwegen"
+    },
+    {
+      "id": "vitamine_c",
+      "naam": "Vitamine C",
+      "ook_bekend_als": [
+        "Ascorbinezuur"
+      ],
+      "eenheid": "mg",
+      "adh": {
+        "man": 75,
+        "vrouw": 75,
+        "zwanger": 85,
+        "borstvoeding": 120
+      },
+      "bovengrens_veilig": 2000,
+      "functies": [
+        "Antioxidant — beschermt cellen tegen schade",
+        "Immuunsysteem versterken",
+        "IJzeropname verbeteren (non-haem ijzer)",
+        "Collageenaanmaak voor huid en gewrichten",
+        "Wondgenezing"
+      ],
+      "tekort_symptomen": [
+        "Scheurbuik (extreme tekort)",
+        "Vermoeidheid",
+        "Bloedend tandvlees",
+        "Verminderde weerstand"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Kiwi",
+          "hoeveelheid_per_100g": 93,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Paprika (rood)",
+          "hoeveelheid_per_100g": 128,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Sinaasappel",
+          "hoeveelheid_per_100g": 53,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Aardbei",
+          "hoeveelheid_per_100g": 59,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Ananas",
+          "hoeveelheid_per_100g": 48,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Mango",
+          "hoeveelheid_per_100g": 36,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Broccoli",
+          "hoeveelheid_per_100g": 89,
+          "eenheid": "mg"
+        }
+      ],
+      "oplosbaarheid": "wateroplosbaar",
+      "opname_tip": "Gevoelig voor licht en lucht — blend vlak voor consumptie voor max vitamine C"
+    },
+    {
+      "id": "vitamine_d",
+      "naam": "Vitamine D",
+      "ook_bekend_als": [
+        "Cholecalciferol (D3)",
+        "Ergocalciferol (D2)"
+      ],
+      "eenheid": "mcg",
+      "adh": {
+        "man": 10,
+        "vrouw": 10,
+        "zwanger": 10,
+        "borstvoeding": 10,
+        "70_plus": 20
+      },
+      "bovengrens_veilig": 100,
+      "functies": [
+        "Calciumopname voor sterke botten en tanden",
+        "Immuunsysteem reguleren",
+        "Spierfunctie ondersteunen",
+        "Stemming en mentale gezondheid"
+      ],
+      "tekort_symptomen": [
+        "Rachitis (kinderen)",
+        "Botontkalking (osteoporose)",
+        "Spierpijn en -zwakte",
+        "Vermoeidheid en neerslachtigheid"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Verrijkte plantaardige melk",
+          "hoeveelheid_per_100g": 1,
+          "eenheid": "mcg"
+        }
+      ],
+      "oplosbaarheid": "vetoplosbaar",
+      "opname_tip": "Nauwelijks in groenten/fruit — hoofdbron is zonlicht. Supplement aanbevolen in winter."
+    },
+    {
+      "id": "vitamine_e",
+      "naam": "Vitamine E",
+      "ook_bekend_als": [
+        "Tocoferol",
+        "alfa-Tocoferol"
+      ],
+      "eenheid": "mg",
+      "adh": {
+        "man": 13,
+        "vrouw": 11,
+        "zwanger": 11,
+        "borstvoeding": 11
+      },
+      "bovengrens_veilig": 300,
+      "functies": [
+        "Krachtige antioxidant — beschermt celvliezen",
+        "Immuunsysteem ondersteunen",
+        "Bloedvaten gezond houden",
+        "Huidgezondheid"
+      ],
+      "tekort_symptomen": [
+        "Zeldzaam — bij vetmalabsorptie",
+        "Spierproblemen",
+        "Zenuwschade"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Amandelen",
+          "hoeveelheid_per_100g": 25.6,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Zonnebloempitten",
+          "hoeveelheid_per_100g": 35.2,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Avocado",
+          "hoeveelheid_per_100g": 2.1,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Spinazie",
+          "hoeveelheid_per_100g": 2,
+          "eenheid": "mg"
+        },
+        {
+          "ingredient": "Kiwi",
+          "hoeveelheid_per_100g": 1.5,
+          "eenheid": "mg"
+        }
+      ],
+      "oplosbaarheid": "vetoplosbaar",
+      "opname_tip": "Beter opneembaar met vet — combineer met noten of lijnzaadolie in smoothie"
+    },
+    {
+      "id": "vitamine_k",
+      "naam": "Vitamine K",
+      "ook_bekend_als": [
+        "Fylloquinon (K1)",
+        "Menaquinon (K2)"
+      ],
+      "eenheid": "mcg",
+      "adh": {
+        "man": 70,
+        "vrouw": 70,
+        "zwanger": 70,
+        "borstvoeding": 70
+      },
+      "bovengrens_veilig": null,
+      "functies": [
+        "Bloedstolling",
+        "Botmineralisatie en botgezondheid",
+        "Calciumregulatie in bloedvaten"
+      ],
+      "tekort_symptomen": [
+        "Verminderde bloedstolling",
+        "Makkelijk blauwe plekken",
+        "Botontkalking op lange termijn"
+      ],
+      "smoothie_ingredienten": [
+        {
+          "ingredient": "Spinazie",
+          "hoeveelheid_per_100g": 483,
+          "eenheid": "mcg"
+        },
+        {
+          "ingredient": "Boerenkool",
+          "hoeveelheid_per_100g": 817,
+          "eenheid": "mcg"
+        },
+        {
+          "ingredient": "Broccoli",
+          "hoeveelheid_per_100g": 102,
+          "eenheid": "mcg"
+        },
+        {
+          "ingredient": "Avocado",
+          "hoeveelheid_per_100g": 21,
+          "eenheid": "mcg"
+        },
+        {
+          "ingredient": "Kiwi",
+          "hoeveelheid_per_100g": 40,
+          "eenheid": "mcg"
+        }
+      ],
+      "oplosbaarheid": "vetoplosbaar",
+      "opname_tip": "Beter opneembaar met vet — groene smoothie met lijnzaadolie is ideaal"
+    }
   ]
 }
