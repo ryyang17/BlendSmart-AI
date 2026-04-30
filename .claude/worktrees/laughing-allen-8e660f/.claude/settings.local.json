@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(python \"C:\\\\Users\\\\yangr\\\\AppData\\\\Roaming\\\\Claude\\\\local-agent-mode-sessions\\\\skills-plugin\\\\181827f4-7776-4efd-bcaa-735fcdeaedb6\\\\cddd9d15-a929-4c45-b63a-f874d5aafeb4\\\\skills\\\\docx\\\\scripts\\\\office\\\\unpack.py\" \"C:\\\\Users\\\\yangr\\\\OneDrive - Office 365 Fontys\\\\ICT_S4_AAI\\\\Personal project Blendsmart AI\\\\plan_van_aanpak_blendsmart_ai_v2.docx\" \"/tmp/docx_unpacked\")",
-      "Bash(python -c ' *)"
-    ]
-  }
-}
