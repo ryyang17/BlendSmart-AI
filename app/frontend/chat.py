@@ -1,6 +1,7 @@
 """Streamlit chat UI for BlendSmart AI."""
 import streamlit as st
 import httpx
+from uuid import uuid4
 
 API_URL = "http://localhost:8000/api/chat"
 
@@ -10,6 +11,9 @@ st.caption("Jouw persoonlijke smoothie- en voedingsassistent — volledig lokaal
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
+
+if "session_id" not in st.session_state:
+    st.session_state.session_id = uuid4().hex
 
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
@@ -25,7 +29,11 @@ if prompt := st.chat_input("Stel een vraag, bijv. 'Ik voel me altijd moe'"):
             try:
                 resp = httpx.post(
                     API_URL,
-                    json={"message": prompt, "history": st.session_state.messages[:-1]},
+                    json={
+                        "session_id": st.session_state.session_id,
+                        "message": prompt,
+                        "history": st.session_state.messages[:-1],
+                    },
                     timeout=60,
                 )
                 reply = resp.json().get("reply", "Er ging iets mis. Probeer opnieuw.")

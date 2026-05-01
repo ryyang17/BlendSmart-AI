@@ -15,11 +15,7 @@ _SYSTEM = SystemMessage(content=(
 
 
 def run(state: AgentState) -> AgentState:
-    last_user = next(
-        (m.content for m in reversed(state["messages"]) if m.type == "human"),
-        "",
-    )
-    question = _llm.invoke([_SYSTEM, HumanMessage(content=last_user)]).content
+    question = _llm.invoke([_SYSTEM, *state["messages"]]).content
     return {
         "messages": [AIMessage(content=question)],
         "final_answer": question,

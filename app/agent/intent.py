@@ -20,7 +20,7 @@ def run(state: AgentState) -> AgentState:
         (m.content for m in reversed(state["messages"]) if m.type == "human"),
         "",
     )
-    raw = _llm.invoke([_SYSTEM, HumanMessage(content=last_user)]).content.strip().lower()
+    raw = _llm.invoke([_SYSTEM, *state["messages"]]).content.strip().lower()
     intent = raw if raw in {"recipe", "info"} else "unknown"
     needs_followup = intent == "unknown" or len(last_user.split()) < 4
     return {"intent": intent, "needs_followup": needs_followup}

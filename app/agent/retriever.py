@@ -11,10 +11,8 @@ _embeddings = OllamaEmbeddings(
 
 
 def run(state: AgentState) -> AgentState:
-    last_user = next(
-        (m.content for m in reversed(state["messages"]) if m.type == "human"),
-        "",
-    )
-    embedding = _embeddings.embed_query(last_user)
+    user_texts = [m.content for m in state["messages"] if m.type == "human"]
+    query = " ".join(user_texts[-4:])
+    embedding = _embeddings.embed_query(query)
     docs = vector_store.query(embedding, top_k=settings.retrieval_top_k)
     return {"retrieved_docs": docs}
