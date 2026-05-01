@@ -7,5 +7,5 @@ DISCLAIMER = (
 
 
 def run(state: AgentState) -> AgentState:
-    # TODO: format state["final_answer"] and append DISCLAIMER
-    raise NotImplementedError
+    answer = state.get("final_answer") or ""
+    return {"final_answer": answer.strip() + DISCLAIMER}
