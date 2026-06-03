@@ -219,7 +219,7 @@ if prompt := st.chat_input("Stel een vraag, bijv. 'Ik voel me altijd moe'"):
                         "message": prompt,
                         "history": st.session_state.messages[:-1],
                     },
-                    timeout=60,
+                    timeout=180,
                 )
                 reply = resp.json().get("reply", "Er ging iets mis. Probeer opnieuw.")
             except Exception as e:

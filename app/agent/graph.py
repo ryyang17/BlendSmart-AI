@@ -25,7 +25,7 @@ def build_graph() -> StateGraph:
     graph.add_edge("recipe", "quality")
     graph.add_conditional_edges(
         "quality",
-        lambda s: "response" if s["quality_ok"] else "retriever",
+        lambda s: "response" if (s["quality_ok"] or s.get("retry_count", 0) >= 2) else "retriever",
     )
     graph.add_edge("response", END)
 

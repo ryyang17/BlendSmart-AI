@@ -9,3 +9,4 @@ class AgentState(TypedDict):
     needs_followup: bool
     quality_ok: bool
     final_answer: str | None
+    retry_count: int

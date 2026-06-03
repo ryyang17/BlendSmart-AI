@@ -63,6 +63,7 @@ def chat(request: ChatRequest) -> ChatResponse:
         "needs_followup": False,
         "quality_ok": False,
         "final_answer": None,
+        "retry_count": 0,
     }
     result = agent.invoke(initial_state)
     reply = result.get("final_answer") or "Er is iets misgegaan. Probeer opnieuw."
