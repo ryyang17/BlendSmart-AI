@@ -11,6 +11,7 @@ _EMPTY: dict = {
     "goals": [],
     "favorite_ingredients": [],
     "disliked_ingredients": [],
+    "available_ingredients": [],
 }
 
 
@@ -40,7 +41,7 @@ def merge(existing: dict, updates: dict) -> dict:
     result = dict(existing)
     if updates.get("name"):
         result["name"] = updates["name"]
-    for key in ("allergies", "preferences", "goals", "favorite_ingredients", "disliked_ingredients"):
+    for key in ("allergies", "preferences", "goals", "favorite_ingredients", "disliked_ingredients", "available_ingredients"):
         new_items = updates.get(key) or []
         if new_items:
             result[key] = list(dict.fromkeys((result.get(key) or []) + new_items))

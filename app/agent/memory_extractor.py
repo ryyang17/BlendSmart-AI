@@ -31,6 +31,19 @@ _LIKE_PATTERNS = [
     r"ik\s+lust\s+graag\s+([^.!?]+)",
 ]
 
+# ── Available ingredients (user has at home) ─────────────────────────────────
+_AVAILABLE_PATTERNS = [
+    r"ik\s+heb\s+([^.!?]+?)\s+in\s+huis",
+    r"ik\s+heb\s+thuis\s+([^.!?]+)",
+    r"ik\s+heb\s+([^.!?]+?)\s+thuis",
+    r"maak\s+iets\s+met\s+([^.!?]+)",
+    r"ik\s+heb\s+([^.!?]+?)\s+beschikbaar",
+    r"ik\s+heb\s+alleen\s+([^.!?]+)",
+    r"gebruik\s+([^.!?]+?)\s+als\s+ingredi[eë]nt",
+    r"er\s+staat\s+([^.!?]+?)\s+in\s+(?:mijn\s+)?koelkast",
+    r"ik\s+wil\s+iets\s+maken\s+met\s+([^.!?]+)",
+]
+
 # ── Allergies ────────────────────────────────────────────────────────────────
 _ALLERGY_PATTERNS = [
     r"allergisch\s+voor\s+([^.!?]+)",
@@ -123,6 +136,10 @@ def _extract(message: str) -> dict:
     goals = [label for pat, label in _GOAL_PHRASES.items() if re.search(pat, message, re.IGNORECASE)]
     if goals:
         updates["goals"] = goals
+
+    available = _all(message, _AVAILABLE_PATTERNS)
+    if available:
+        updates["available_ingredients"] = available
 
     return updates
 

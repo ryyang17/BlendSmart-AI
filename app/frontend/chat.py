@@ -194,13 +194,43 @@ if "session_id" not in st.session_state:
 if "user_name" not in st.session_state:
     st.session_state.user_name = None
 
-_greeting = f"Hallo, {st.session_state.user_name}!" if st.session_state.user_name else "Persoonlijke smoothie &amp; voedingsassistent"
+import datetime
+_greeting = (
+    f"Hallo {st.session_state.user_name}, ik ben Blendi! 🥤"
+    if st.session_state.user_name
+    else "Jouw persoonlijke smoothie-buddy 🥤"
+)
 st.markdown(f"""
 <div class="bs-header">
     <div style="font-size:2rem">🥤</div>
-    <h1>BlendSmart</h1>
+    <h1>Blendi</h1>
     <div class="tagline">{_greeting}</div>
     <div class="bs-badge">🔒 Volledig lokaal &nbsp;·&nbsp; Geen cloud</div>
+</div>
+""", unsafe_allow_html=True)
+
+_DAILY_TIPS = [
+    "Maandag-tip 🍌: Voeg een bevroren banaan toe aan elke groene smoothie — het geeft een romige textuur zonder zuivel!",
+    "Dinsdag-tip 🫚: Een theelepel lijnzaadolie verhoogt de opname van vetoplosbare vitamines in je smoothie tot wel 3x.",
+    "Woensdag-tip 🍓: Bevroren fruit blenden geeft een koudere, dikkere smoothie zónder ijsblokjes die de smaak verdunnen.",
+    "Donderdag-tip 🥬: Spinazie heeft nauwelijks smaak in een smoothie — perfect om stiekem extra ijzer binnen te krijgen!",
+    "Vrijdag-tip 🍊: Voeg een snufje zwarte peper toe bij kurkuma: dat verhoogt de opname van curcumine met wel 2000%!",
+    "Zaterdag-tip 🫐: Blauwe bessen invriezen en dan blenden maakt ze nog antioxidantrijker dan vers — écht waar!",
+    "Zondag-tip 🌿: Maak je smoothie op zondagavond als prep voor de week — vries porties in voor maximaal 3 maanden.",
+]
+_tip = _DAILY_TIPS[datetime.date.today().weekday()]
+st.markdown(f"""
+<div style="
+    background: rgba(30,77,43,0.06);
+    border-left: 3px solid var(--fresh);
+    border-radius: 0 12px 12px 0;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-mid);
+    font-family: 'Jost', sans-serif;
+">
+{_tip}
 </div>
 """, unsafe_allow_html=True)
 
@@ -208,13 +238,13 @@ for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-if prompt := st.chat_input("Stel een vraag, bijv. 'Ik voel me altijd moe'"):
+if prompt := st.chat_input("Vraag Blendi iets, bijv. 'Ik heb banaan en spinazie thuis'"):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
-        with st.spinner("BlendSmart denkt na..."):
+        with st.spinner("Blendi maakt jouw recept... 🥤"):
             try:
                 resp = httpx.post(
                     API_URL,

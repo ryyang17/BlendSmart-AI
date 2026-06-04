@@ -11,3 +11,4 @@ class AgentState(TypedDict):
     final_answer: str | None
     retry_count: int
     user_profile: dict          # persistent user preferences
+    available_ingredients: list[str]

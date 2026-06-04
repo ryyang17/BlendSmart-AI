@@ -70,6 +70,7 @@ def chat(request: ChatRequest) -> ChatResponse:
         "final_answer": None,
         "retry_count": 0,
         "user_profile": user_profile,
+        "available_ingredients": user_profile.get("available_ingredients") or [],
     }
     result = agent.invoke(initial_state)
     reply = result.get("final_answer") or "Er is iets misgegaan. Probeer opnieuw."

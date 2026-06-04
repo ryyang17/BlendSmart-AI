@@ -2,7 +2,7 @@
 from app.agent.state import AgentState
 
 DISCLAIMER = (
-    "\n\n⚠️ *Dit is algemene voedingsinformatie ter inspiratie, geen medisch advies.*"
+    "\n\n💚 *Blendi's tip: dit is algemene voedingsinformatie ter inspiratie, geen medisch advies.*"
 )
 
 
