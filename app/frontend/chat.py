@@ -185,20 +185,24 @@ textarea[data-testid="stChatInputTextArea"] {
 
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)
 
-st.markdown("""
-<div class="bs-header">
-    <div style="font-size:2rem">🥤</div>
-    <h1>BlendSmart</h1>
-    <div class="tagline">Persoonlijke smoothie &amp; voedingsassistent</div>
-    <div class="bs-badge">🔒 Volledig lokaal &nbsp;·&nbsp; Geen cloud</div>
-</div>
-""", unsafe_allow_html=True)
-
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
 if "session_id" not in st.session_state:
     st.session_state.session_id = uuid4().hex
+
+if "user_name" not in st.session_state:
+    st.session_state.user_name = None
+
+_greeting = f"Hallo, {st.session_state.user_name}!" if st.session_state.user_name else "Persoonlijke smoothie &amp; voedingsassistent"
+st.markdown(f"""
+<div class="bs-header">
+    <div style="font-size:2rem">🥤</div>
+    <h1>BlendSmart</h1>
+    <div class="tagline">{_greeting}</div>
+    <div class="bs-badge">🔒 Volledig lokaal &nbsp;·&nbsp; Geen cloud</div>
+</div>
+""", unsafe_allow_html=True)
 
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
@@ -221,7 +225,10 @@ if prompt := st.chat_input("Stel een vraag, bijv. 'Ik voel me altijd moe'"):
                     },
                     timeout=180,
                 )
-                reply = resp.json().get("reply", "Er ging iets mis. Probeer opnieuw.")
+                data = resp.json()
+                reply = data.get("reply", "Er ging iets mis. Probeer opnieuw.")
+                if data.get("user_name"):
+                    st.session_state.user_name = data["user_name"]
             except Exception as e:
                 reply = f"Kan de backend niet bereiken: {e}"
         st.markdown(reply)

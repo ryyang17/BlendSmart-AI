@@ -1,7 +1,10 @@
+import threading
 from fastapi import APIRouter
 from pydantic import BaseModel, Field
 from langchain_core.messages import HumanMessage, AIMessage
 from app.agent.graph import agent
+from app.agent import memory_extractor
+from app.memory import profile as profile_store
 
 router = APIRouter()
 
@@ -16,6 +19,7 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     reply: str
+    user_name: str | None = None
 
 
 def _build_messages(history: list[dict], message: str) -> list:
@@ -56,6 +60,7 @@ def _store_turn(session_id: str | None, history: list[dict], message: str, reply
 @router.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest) -> ChatResponse:
     history = _get_history(request.session_id, request.history)
+    user_profile = profile_store.load(request.session_id) if request.session_id else {}
     initial_state = {
         "messages": _build_messages(history, request.message),
         "intent": None,
@@ -64,8 +69,18 @@ def chat(request: ChatRequest) -> ChatResponse:
         "quality_ok": False,
         "final_answer": None,
         "retry_count": 0,
+        "user_profile": user_profile,
     }
     result = agent.invoke(initial_state)
     reply = result.get("final_answer") or "Er is iets misgegaan. Probeer opnieuw."
     _store_turn(request.session_id, history, request.message, reply)
-    return ChatResponse(reply=reply)
+
+    if request.session_id:
+        threading.Thread(
+            target=memory_extractor.extract_and_save,
+            args=(request.session_id, request.message),
+            daemon=True,
+        ).start()
+
+    current_name = user_profile.get("name")
+    return ChatResponse(reply=reply, user_name=current_name)

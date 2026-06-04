@@ -10,3 +10,4 @@ class AgentState(TypedDict):
     quality_ok: bool
     final_answer: str | None
     retry_count: int
+    user_profile: dict          # persistent user preferences
