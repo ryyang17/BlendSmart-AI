@@ -1,16 +1,28 @@
 """Memory extractor — regex-based extraction of user preferences from Dutch text."""
 import re
+from langchain_ollama import ChatOllama
+from langchain_core.messages import HumanMessage
+from app.config import settings
 from app.memory import profile as profile_store
 
+_llm = ChatOllama(model=settings.ollama_llm_model, base_url=settings.ollama_base_url)
+
 # ── Name ────────────────────────────────────────────────────────────────────
-# (?i:...) makes only the keyword part case-insensitive; [A-Z] still requires
-# a true capital, filtering out adjectives like "veganistisch".
-# Second fallback: "ik heet" is unambiguous enough to also accept all-lowercase.
+# Unambiguous phrases accept any case; "ik ben" keeps [A-Z] to avoid matching
+# adjectives like "allergisch". _first_name() filters a blacklist + capitalizes.
 _NAME_PATTERNS = [
-    r"(?i:mijn\s+naam\s+is\s+)([A-Z][a-z]+)",
-    r"(?i:ik\s+heet\s+)([A-Z][a-z]+)",
-    r"(?i:ik\s+heet\s+)([a-z]+)",          
+    r"(?i:mijn\s+naam\s+is\s+)([A-Za-z]+)",   # "mijn naam is ruyi" / "Mijn naam is Ruyi"
+    r"(?i:ik\s+heet\s+)([A-Za-z]+)",            # "ik heet ruyi" / "Ik heet Ruyi"
+    r"(?i:noem\s+me\s+)([A-Za-z]+)",            # "noem me ruyi"
+    r"(?i:ik\s+ben\s+)([A-Z][a-z]+)",           # "Ik ben Ruyi" — capital still required (less specific)
 ]
+
+# Words that could be captured by "ik ben X" but are not names
+_NON_NAMES = frozenset({
+    "moe", "fit", "ziek", "blij", "bang", "druk", "klaar", "beter", "goed",
+    "allergisch", "vegan", "diabeet", "keto", "vegetarisch", "sportief",
+    "lactosevrij", "glutenvrij", "suikervrij", "actief", "gezond", "zwanger",
+})
 
 # ── Dislikes ─────────────────────────────────────────────────────────────────
 # Stop at sentence-ending punctuation only (not commas) so "spinazie en banaan"
@@ -45,12 +57,16 @@ _AVAILABLE_PATTERNS = [
 ]
 
 # ── Allergies ────────────────────────────────────────────────────────────────
+# The -intolerantie/-allergie patterns use \b(\w+) so only the substance word
+# directly before the suffix is captured — not the whole phrase "ik heb lactose".
 _ALLERGY_PATTERNS = [
     r"allergisch\s+voor\s+([^.!?]+)",
     r"intolerant\s+voor\s+([^.!?]+)",
     r"ik\s+verdraag\s+([^.!?]+?)\s+niet",
-    r"([^.!?,]+?)-?intolerantie",
-    r"([^.!?,]+?)-?allergie",
+    r"\b(\w+)\s*-\s*intolerantie",   # "lactose-intolerantie" → "lactose"
+    r"\b(\w+)\s+intolerantie",        # "lactose intolerantie" → "lactose"
+    r"\b(\w+)\s*-\s*allergie",        # "noten-allergie" → "noten"
+    r"\b(\w+)\s+allergie",            # "noten allergie" → "noten"
 ]
 
 # ── Keyword-based dietary preferences ────────────────────────────────────────
@@ -89,11 +105,12 @@ def _split_ingredients(raw: str) -> list[str]:
 
 
 def _first_name(text: str) -> str | None:
-    """Inline (?i:...) handles keyword matching; captured group stays case-aware."""
     for pat in _NAME_PATTERNS:
         m = re.search(pat, text)
         if m:
-            return m.group(1).strip()
+            candidate = m.group(1).strip()
+            if len(candidate) >= 2 and candidate.lower() not in _NON_NAMES:
+                return candidate.capitalize()
     return None
 
 
@@ -144,11 +161,32 @@ def _extract(message: str) -> dict:
     return updates
 
 
+def _normalize_labels(items: list[str]) -> list[str]:
+    """LLM spelling correction for extracted Dutch labels. Runs in the background thread."""
+    if not items:
+        return items
+    try:
+        result = _llm.invoke([HumanMessage(content=(
+            "Corrigeer alleen de spelling van deze Nederlandse voedingsitems of dieetvoorkeuren. "
+            "Gebruik de enkelvoudsvorm (bijv. 'banaan' niet 'bananen'). "
+            "Geen uitleg, geen aanvullingen. "
+            "Antwoord met exact evenveel items als de input, gescheiden door komma's.\n\n"
+            f"Input: {', '.join(items)}\nOutput:"
+        ))])
+        corrected = [p.strip().rstrip(".,") for p in result.content.split(",") if p.strip()]
+        return corrected if len(corrected) == len(items) else items
+    except Exception:
+        return items
+
+
 def extract_and_save(session_id: str, user_message: str) -> None:
     """Called in a background thread — extracts profile updates and saves to disk."""
     updates = _extract(user_message)
     if not updates:
         return
+    for key in ("favorite_ingredients", "disliked_ingredients", "allergies", "available_ingredients"):
+        if key in updates:
+            updates[key] = _normalize_labels(updates[key])
     current = profile_store.load(session_id)
     merged = profile_store.merge(current, updates)
     profile_store.save(session_id, merged)

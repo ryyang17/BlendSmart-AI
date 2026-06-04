@@ -1,0 +1,19 @@
+{
+  "name": "Tom",
+  "allergies": [
+    "lactose",
+    "noten"
+  ],
+  "preferences": [],
+  "goals": [],
+  "favorite_ingredients": [],
+  "disliked_ingredients": [
+    "appel"
+  ],
+  "available_ingredients": [
+    "banaan",
+    "blauwe bessen",
+    "watermeloen",
+    "komkommer"
+  ]
+}

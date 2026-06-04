@@ -842,7 +842,7 @@ localStorage.setItem('bs_session', sessionId);
 
 let history = [];
 let isLoading = false;
-let profile = { name: null, allergies: [], preferences: [], goals: [], favorite_ingredients: [], disliked_ingredients: [] };
+let profile = { name: null, allergies: [], preferences: [], goals: [], favorite_ingredients: [], disliked_ingredients: [], available_ingredients: [] };
 
 /* ═══════════════════════════════════════════════════
    DOM REFS
@@ -930,6 +930,11 @@ function renderPanel() {
       <div class="tags">${makeTags(profile.goals, 'violet')}</div>
     </div>
 
+    <div class="profile-section">
+      <div class="section-label">🏠 In huis</div>
+      <div class="tags">${makeTags(profile.available_ingredients, 'teal')}</div>
+    </div>
+
     <button class="clear-profile-btn" id="clear-profile">Profiel wissen</button>
   `;
 
@@ -940,7 +945,7 @@ async function clearProfile() {
   if (!confirm('Weet je zeker dat je je profiel wilt wissen?')) return;
   sessionId = crypto.randomUUID().replace(/-/g,'');
   localStorage.setItem('bs_session', sessionId);
-  profile = { name: null, allergies: [], preferences: [], goals: [], favorite_ingredients: [], disliked_ingredients: [] };
+  profile = { name: null, allergies: [], preferences: [], goals: [], favorite_ingredients: [], disliked_ingredients: [], available_ingredients: [] };
   history = [];
   messagesEl.innerHTML = '';
   messagesEl.appendChild(welcomeEl);
@@ -955,7 +960,11 @@ async function clearProfile() {
 /* ═══════════════════════════════════════════════════
    PANEL OPEN / CLOSE
 ═══════════════════════════════════════════════════ */
-function openPanel() {
+async function openPanel() {
+  try {
+    const pr = await fetch(`${API}/profile/${sessionId}`);
+    if (pr.ok) profile = await pr.json();
+  } catch (_) {}
   renderPanel();
   profilePanel.classList.add('open');
   profileOverlay.classList.add('open');
@@ -1005,16 +1014,19 @@ async function sendMessage(text) {
     appendMessage('assistant', reply);
     history.push({ role: 'assistant', content: reply });
 
-    // Update name if newly detected
-    if (data.user_name && data.user_name !== profile.name) {
-      profile.name = data.user_name;
-      // Re-fetch full profile to get latest data
+    // Always re-fetch profile after a short delay so background extraction has time to finish
+    setTimeout(async () => {
       try {
         const pr = await fetch(`${API}/profile/${sessionId}`);
-        if (pr.ok) profile = await pr.json();
+        if (pr.ok) {
+          const updated = await pr.json();
+          if (JSON.stringify(updated) !== JSON.stringify(profile)) {
+            profile = updated;
+            updateProfileUI();
+          }
+        }
       } catch (_) {}
-      updateProfileUI();
-    }
+    }, 400);
   } catch (e) {
     typingEl.remove();
     appendMessage('assistant', `Kan de backend niet bereiken. Is de server actief?`);
