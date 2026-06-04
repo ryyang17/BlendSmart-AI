@@ -9,7 +9,7 @@ from app.memory import profile as profile_store
 _NAME_PATTERNS = [
     r"(?i:mijn\s+naam\s+is\s+)([A-Z][a-z]+)",
     r"(?i:ik\s+heet\s+)([A-Z][a-z]+)",
-    r"(?i:ik\s+heet\s+)([a-z]+)",           # all-lowercase fallback ("ik heet ruyi")
+    r"(?i:ik\s+heet\s+)([a-z]+)",          
 ]
 
 # ── Dislikes ─────────────────────────────────────────────────────────────────
