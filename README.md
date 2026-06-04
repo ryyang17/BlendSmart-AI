@@ -8,13 +8,14 @@ A local, privacy-first nutrition chatbot powered by **Ollama** + **LangGraph**. 
 
 ## What It Does
 
-Users describe their health goals or how they feel (e.g., "I always feel tired"), and the agent:
+Users describe their health goals or how they feel (e.g., "Ik voel me altijd moe"), and the agent:
 
 1. **Classifies intent** — recipe request, nutritional info, or needs more context
 2. **Asks follow-up questions** if the query is too vague
 3. **Retrieves** relevant nutritional data from a local ChromaDB knowledge base
-4. **Generates** a concrete smoothie/shake recipe matched to the user's goal
+4. **Generates** a concrete smoothie recipe matched to the user's goal and personal profile
 5. **Self-evaluates** the answer quality before responding
+6. **Remembers** the user's name, allergies, preferences, and favourite ingredients across sessions
 
 This is an **Agentic RAG** system: instead of always running the same retrieve → generate pipeline, the AI agent decides which steps to take based on the situation.
 
@@ -28,8 +29,8 @@ This is an **Agentic RAG** system: instead of always running the same retrieve �
 | Agent Framework | LangGraph (Python)                | State-machine agentic flows                 |
 | Vector Database | ChromaDB                          | Lightweight, local, easy to integrate       |
 | Embeddings      | `nomic-embed-text` via Ollama     | Local embeddings, no external API           |
-| Backend         | Python + FastAPI                  | REST API for chatbot communication          |
-| Frontend        | Streamlit                         | Fast chat UI, ideal for prototyping         |
+| Backend         | Python + FastAPI                  | REST API + serves the frontend              |
+| Frontend        | HTML / CSS / JS (single page)     | Full design control, no extra framework     |
 | GPU             | NVIDIA RTX 3050 6 GB              | CUDA support auto-detected by Ollama        |
 
 ---
@@ -37,35 +38,64 @@ This is an **Agentic RAG** system: instead of always running the same retrieve �
 ## Architecture
 
 ```
-User (Streamlit UI)
-        │
+Browser (http://localhost:8000)
+        │  fetch()
         ▼
   FastAPI Backend
+  ├── POST /api/chat
+  ├── GET  /api/profile/{session_id}
+  └── GET  /  → serves index.html
         │
         ▼
   LangGraph Agent
-  ┌─────────────────────────────────────┐
-  │  Intent Classifier                  │
-  │       │                             │
-  │  ┌────┴────┐                        │
-  │  │         │                        │
-  │  ▼         ▼                        │
-  │ Follow-up  Retriever (ChromaDB)     │
-  │  Node      │                        │
-  │            ▼                        │
-  │       Recipe Generator              │
-  │            │                        │
-  │            ▼                        │
-  │       Quality Checker               │
-  │            │                        │
-  │            ▼                        │
-  │       Response Node                 │
-  └─────────────────────────────────────┘
+  ┌──────────────────────────────────────────┐
+  │  Intent Classifier                       │
+  │       │                                  │
+  │  ┌────┴────┐                             │
+  │  │         │                             │
+  │  ▼         ▼                             │
+  │ Follow-up  Retriever (ChromaDB)          │
+  │  Node      │                             │
+  │            ▼                             │
+  │       Recipe Generator ◄── user_profile  │
+  │            │                             │
+  │            ▼                             │
+  │       Quality Checker (retry loop ×2)   │
+  │            │                             │
+  │            ▼                             │
+  │       Response Node                      │
+  └──────────────────────────────────────────┘
+        │                    │
+        ▼                    ▼ (background thread)
+  Response to user    Memory Extractor
+                      (regex → profile JSON)
         │
         ▼
   Ollama (qwen2.5:7b) — localhost:11434
   ChromaDB — local vector store
+  data/profiles/ — persistent user profiles
 ```
+
+---
+
+## User Memory
+
+BlendSmart AI remembers each user across sessions. Profiles are stored as JSON files in `data/profiles/` (one file per `session_id`, persisted in the browser's `localStorage`).
+
+After each message, a background thread scans the user's text for Dutch phrases and updates the profile — with zero added latency to the response.
+
+**Detected automatically:**
+
+| What the user says | Saved as |
+|---|---|
+| "Ik heet Ruyi" / "Mijn naam is Sara" | `name` |
+| "Ik houd van spinazie en banaan" | `favorite_ingredients` |
+| "Ik hou niet van komkommer" | `disliked_ingredients` |
+| "Ik ben allergisch voor lactose" | `allergies` |
+| "Ik ben veganistisch" | `preferences` |
+| "Ik wil meer energie" | `goals` |
+
+The recipe generator automatically adapts its output to the user's known profile.
 
 ---
 
@@ -109,7 +139,6 @@ Verify Ollama is running:
 
 ```bash
 ollama list
-curl http://localhost:11434/api/tags
 ```
 
 ### 4. Configure environment
@@ -128,14 +157,10 @@ python scripts/ingest.py
 ### 6. Run the app
 
 ```bash
-# Start the FastAPI backend
 uvicorn app.main:app --reload
-
-# In a separate terminal, start the Streamlit UI
-streamlit run app/frontend/chat.py
 ```
 
-Open [http://localhost:8501](http://localhost:8501) in your browser.
+Open [http://localhost:8000](http://localhost:8000) in your browser.
 
 ---
 
@@ -144,66 +169,76 @@ Open [http://localhost:8501](http://localhost:8501) in your browser.
 ```
 blendsmart-ai/
 ├── app/
-│   ├── agent/              # LangGraph agent nodes
-│   │   ├── graph.py        # State machine definition
-│   │   ├── intent.py       # Intent classifier node
-│   │   ├── retriever.py    # ChromaDB retrieval node
-│   │   ├── followup.py     # Follow-up question node
-│   │   ├── recipe.py       # Recipe generator node
-│   │   ├── quality.py      # Quality checker node
-│   │   └── response.py     # Response formatter node
-│   ├── api/                # FastAPI routes
-│   │   └── chat.py
-│   ├── db/                 # ChromaDB setup and queries
+│   ├── agent/
+│   │   ├── graph.py            # LangGraph state machine
+│   │   ├── state.py            # AgentState (incl. user_profile)
+│   │   ├── intent.py           # Intent classifier node
+│   │   ├── retriever.py        # ChromaDB retrieval node
+│   │   ├── followup.py         # Follow-up question node
+│   │   ├── recipe.py           # Recipe generator (profile-aware)
+│   │   ├── quality.py          # Quality checker + retry loop
+│   │   ├── response.py         # Response formatter
+│   │   └── memory_extractor.py # Regex preference extractor (background)
+│   ├── api/
+│   │   └── chat.py             # POST /api/chat · GET /api/profile/{id}
+│   ├── db/
 │   │   └── vector_store.py
-│   ├── frontend/           # Streamlit UI
-│   │   └── chat.py
-│   └── main.py             # FastAPI app entry point
+│   ├── memory/
+│   │   └── profile.py          # load / save / merge JSON profiles
+│   ├── frontend/
+│   │   ├── static/
+│   │   │   └── index.html      # Interactive SPA frontend
+│   │   └── chat.py             # Legacy Streamlit UI (fallback)
+│   ├── config.py
+│   └── main.py                 # FastAPI entry point
 ├── data/
-│   ├── nutrients/          # Nutritional data (JSON/Markdown)
-│   ├── recipes/            # Smoothie recipes (JSON)
-│   └── adh/                # RIVM daily intake values
+│   ├── nutrients/              # Nutritional data (JSON/Markdown)
+│   ├── recipes/                # Smoothie recipes (JSON)
+│   ├── adh/                    # RIVM daily intake values
+│   ├── chroma_db/              # ChromaDB vector store (gitignored)
+│   └── profiles/               # Per-user JSON profiles (gitignored)
 ├── scripts/
-│   └── ingest.py           # Load data into ChromaDB
+│   └── ingest.py
 ├── tests/
 ├── .env.example
-├── .gitignore
 ├── requirements.txt
 └── README.md
 ```
 
 ---
 
-## Sprint Plan (3 Weeks)
+## Frontend Features
 
-| Week | Phase                  | Key Deliverables                                          |
-|------|------------------------|-----------------------------------------------------------|
-| 1    | Environment & Foundation | Ollama setup, ChromaDB, dataset ingestion, basic RAG     |
-| 2    | Agentic RAG Build      | LangGraph nodes, intent classifier, follow-up logic, e2e |
-| 3    | Polish & Delivery      | Streamlit UI, prompt tuning, tests, docs, demo            |
+The UI is a dark-themed single-page app with these interactive elements:
+
+- **Mood board** — 6 goal cards (⚡ Energie, 🌿 Detox, 💪 Kracht, 🌙 Rust, 🛡️ Immuun, 🎲 Verrassing) that send a preset prompt with one click
+- **Quick chips** — shortcut buttons for common requests
+- **Recipe cards** — responses containing recipes are rendered in a distinct card format
+- **Profile panel** — slide-in panel showing name, favourite ingredients, dislikes, allergies, dietary preferences, and goals as colour-coded tags
+- **Personalized greeting** — header updates with the user's name once detected
 
 ---
 
 ## Example Interaction
 
 ```
-User:    "I always feel tired."
+User:    "Ik voel me altijd moe."
 
-Agent:   "How is your sleep? Do you eat regularly throughout the day?"
+Agent:   "Hoe is je slaap? Eet je regelmatig gedurende de dag?"
 
-User:    "I sleep about 6 hours and skip breakfast often."
+User:    "Ik slaap zo'n 6 uur en sla vaak het ontbijt over."
 
-Agent:   Based on your profile, you may benefit from more iron, magnesium,
-         and vitamin B12. Here's a smoothie to help:
+Agent:   Op basis van jouw klachten kan een tekort aan ijzer, magnesium
+         en vitamine B12 een rol spelen. Hier is een recept:
 
-         🥤 Spinach, Banana & Cacao Power Boost
-         - 1 handful fresh spinach (iron, magnesium)
-         - 1 ripe banana (potassium, B6)
-         - 1 tbsp raw cacao powder (magnesium, antioxidants)
-         - 200 ml oat milk (B12-fortified)
-         - Optional: 1 tsp chia seeds
+         🥤 Spinazie, Banaan & Cacao Power Boost
+         - 1 handvol verse spinazie (ijzer, magnesium)
+         - 1 rijpe banaan (kalium, B6)
+         - 1 el rauwe cacaopoeder (magnesium, antioxidanten)
+         - 200 ml havermelk (B12-verrijkt)
+         - Optioneel: 1 tl chiazaad
 
-         ⚠️ This is general nutritional information, not medical advice.
+         ⚠️ Dit is algemene voedingsinformatie ter inspiratie, geen medisch advies.
 ```
 
 ---
@@ -212,7 +247,7 @@ Agent:   Based on your profile, you may benefit from more iron, magnesium,
 
 - **RIVM Voedingsnormen** — official Dutch daily nutritional intake values (ADH)
 - **Voedingscentrum** — ingredient nutritional profiles
-- Manually curated smoothie recipes (minimum 20, linked to nutritional goals)
+- Manually curated smoothie recipes linked to nutritional goals
 
 ---
 

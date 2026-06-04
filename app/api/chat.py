@@ -84,3 +84,8 @@ def chat(request: ChatRequest) -> ChatResponse:
 
     current_name = user_profile.get("name")
     return ChatResponse(reply=reply, user_name=current_name)
+
+
+@router.get("/profile/{session_id}")
+def get_profile(session_id: str) -> dict:
+    return profile_store.load(session_id)
