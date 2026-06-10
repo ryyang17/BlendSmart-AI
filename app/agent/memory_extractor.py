@@ -21,7 +21,7 @@ _NAME_PATTERNS = [
 _NON_NAMES = frozenset({
     "moe", "fit", "ziek", "blij", "bang", "druk", "klaar", "beter", "goed",
     "allergisch", "vegan", "diabeet", "keto", "vegetarisch", "sportief",
-    "lactosevrij", "glutenvrij", "suikervrij", "actief", "gezond", "zwanger",
+    "lactosevrij", "glutenvrij", "suikervrij", "notenvrij", "actief", "gezond", "zwanger",
 })
 
 # ── Dislikes ─────────────────────────────────────────────────────────────────
@@ -77,6 +77,7 @@ _PREF_KEYWORDS: dict[str, str] = {
     "suikervrij": "suikervrij",
     "glutenvrij": "glutenvrij",
     "lactosevrij": "lactosevrij",
+    "notenvrij": "notenvrij",
     "keto": "keto",
     "paleo": "paleo",
     "ik ben diabeet": "diabetes",

@@ -33,25 +33,64 @@ def embed(text: str) -> list[float]:
         sys.exit(1)
 
 
+def _nutrient_entries(data: dict, path: pathlib.Path) -> list[tuple[str, str]]:
+    """Split a vitamins/minerals JSON into one document per nutrient entry.
+
+    Each document is formatted as readable text so embeddings are meaningful.
+    The source label from the JSON is carried into every chunk so the LLM can
+    always attribute a specific value to RIVM / Voedingscentrum.
+    """
+    source = data.get("bron") or data.get("source") or "RIVM Voedingsnormen / Voedingscentrum"
+    entries_key = next((k for k in ("vitaminen", "mineralen") if k in data), None)
+    if not entries_key:
+        return []
+
+    docs = []
+    for entry in data[entries_key]:
+        naam = entry.get("naam", entry.get("id", "onbekend"))
+        aka = ", ".join(entry.get("ook_bekend_als") or [])
+        eenheid = entry.get("eenheid", "")
+        adh = entry.get("adh") or {}
+        functies = "; ".join(entry.get("functies") or [])
+        ingredienten = entry.get("smoothie_ingredienten") or []
+        ing_text = ", ".join(
+            f"{i['ingredient']} ({i['hoeveelheid_per_100g']}{eenheid}/100g)"
+            for i in ingredienten
+        )
+
+        lines = [
+            f"{naam}{' (' + aka + ')' if aka else ''} | Bron: {source}",
+        ]
+        if adh:
+            adh_parts = ", ".join(f"{k} {v}{eenheid}" for k, v in adh.items())
+            lines.append(f"ADH: {adh_parts}")
+        if functies:
+            lines.append(f"Functies: {functies}")
+        if ing_text:
+            lines.append(f"Smoothie-ingrediënten: {ing_text}")
+
+        doc_id = f"{path.stem}_{entry.get('id', naam.lower().replace(' ', '_'))}"
+        docs.append((doc_id, "\n".join(lines)))
+    return docs
+
+
 def load_documents() -> list[tuple[str, str]]:
     """Return (id, text) pairs from all JSON/Markdown/text files in data/."""
     docs = []
     skipped = []
-    
+
     for directory in DATA_DIRS:
         if not directory.exists():
             print(f"⚠️  Warning: Directory not found: {directory}")
             continue
-            
+
         for path in directory.rglob("*"):
-            # Skip directories
             if path.is_dir():
                 continue
-                
+
             if path.suffix == ".json":
                 try:
                     data = json.loads(path.read_text(encoding="utf-8"))
-                    text = json.dumps(data, ensure_ascii=False)
                 except json.JSONDecodeError as e:
                     print(f"⚠️  Skipping invalid JSON: {path} ({e})")
                     skipped.append((path.stem, f"Invalid JSON: {e}"))
@@ -60,6 +99,14 @@ def load_documents() -> list[tuple[str, str]]:
                     print(f"⚠️  Skipping file: {path} ({e})")
                     skipped.append((path.stem, str(e)))
                     continue
+
+                # Split vitamins/minerals files into per-nutrient chunks
+                entries = _nutrient_entries(data, path)
+                if entries:
+                    docs.extend(entries)
+                else:
+                    docs.append((path.stem, json.dumps(data, ensure_ascii=False)))
+
             elif path.suffix in (".md", ".txt"):
                 try:
                     text = path.read_text(encoding="utf-8")
@@ -67,16 +114,15 @@ def load_documents() -> list[tuple[str, str]]:
                     print(f"⚠️  Skipping file: {path} ({e})")
                     skipped.append((path.stem, str(e)))
                     continue
+                docs.append((path.stem, text))
             else:
                 continue
-                
-            docs.append((path.stem, text))
-    
+
     if skipped:
         print(f"\n⚠️  Skipped {len(skipped)} files:")
         for doc_id, reason in skipped:
             print(f"   - {doc_id}: {reason}")
-    
+
     return docs
 
 

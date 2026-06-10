@@ -2,7 +2,12 @@
 from app.agent.state import AgentState
 
 DISCLAIMER = (
-    "\n\n💚 *Blendi's tip: dit is algemene voedingsinformatie ter inspiratie, geen medisch advies.*"
+    "\n\n---\n"
+    "⚠️ **Disclaimer:** De informatie die BlendSmart AI verstrekt is uitsluitend bedoeld als "
+    "algemene voedingsinformatie ter inspiratie en vervangt geen professioneel medisch of "
+    "diëtistisch advies. Raadpleeg altijd een arts of geregistreerde diëtist voor persoonlijk "
+    "voedings- of gezondheidsadvies, zeker bij medische aandoeningen, zwangerschap of "
+    "specifieke dieetbehoeften."
 )
 
 
