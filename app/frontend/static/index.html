@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BlendSmart AI</title>
+<title>Smoothie Buddy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
 <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('bs_theme')||'dark')})();</script>
@@ -451,11 +451,145 @@ header {
   color: var(--lime);
 }
 
+.recipe-intro {
+  padding: 0.65rem 0.9rem 0.35rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.recipe-section {
+  padding: 0.6rem 0.9rem;
+  border-top: 1px solid var(--border);
+}
+
+.recipe-section-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.45rem;
+}
+
+.recipe-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+}
+
+.recipe-list li {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  padding-left: 1rem;
+  position: relative;
+  color: var(--text);
+}
+
+.recipe-list li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--lime);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.recipe-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  counter-reset: step;
+}
+
+.recipe-steps > li {
+  counter-increment: step;
+  display: flex;
+  gap: 0.55rem;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.recipe-steps > li::before {
+  content: counter(step);
+  flex-shrink: 0;
+  align-self: flex-start;
+  min-width: 1.3rem;
+  height: 1.3rem;
+  background: var(--lime-soft);
+  border: 1px solid rgba(159,232,112,0.25);
+  border-radius: 50%;
+  font-size: 0.67rem;
+  font-weight: 700;
+  font-family: 'Syne', sans-serif;
+  color: var(--lime);
+  text-align: center;
+  line-height: 1.3rem;
+  margin-top: 0.12rem;
+}
+
+.recipe-kcal-bar {
+  margin-top: 0.55rem;
+}
+
+.recipe-kcal {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.7rem;
+  background: var(--lime-soft);
+  border: 1px solid rgba(159,232,112,0.25);
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: 'Syne', sans-serif;
+  color: var(--lime);
+  letter-spacing: 0.02em;
+}
+
+.recipe-source {
+  margin-top: 0.4rem;
+  font-size: 0.71rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.recipe-shopping li { color: var(--amber); }
+.recipe-shopping li::before { color: var(--amber); }
+
+/* Fallback for unstructured recipe text */
 .recipe-body {
   padding: 0.75rem 0.85rem;
   font-size: 0.86rem;
   line-height: 1.65;
   white-space: pre-wrap;
+}
+
+/* Proactive / initiative message */
+.msg-proactive .msg-bubble {
+  border-color: rgba(201,168,76,0.28);
+  background: rgba(201,168,76,0.07);
+}
+
+.proactive-badge {
+  font-size: 0.61rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-bottom: 0.4rem;
+  opacity: 0.85;
 }
 
 /* Typing indicator */
@@ -808,7 +942,7 @@ button#send-btn:disabled {
 <header>
   <div class="logo">
     <div class="logo-icon">🥤</div>
-    <span class="logo-text">Blend<span>Smart</span></span>
+    <span class="logo-text">Smoothie<span> Buddy</span></span>
   </div>
   <div class="header-right">
     <span class="privacy-badge">🔒 Lokaal</span>
@@ -860,7 +994,7 @@ button#send-btn:disabled {
     <div class="welcome" id="welcome">
       <div class="welcome-icon">🥤</div>
       <h2 id="welcome-title">Hallo, ik ben je<br/>Smoothie Buddy!</h2>
-      <p>Kies een stemming hierboven, of stel me een vraag over smoothies, voeding of ingrediënten.</p>
+      <p>Kies een stemming hierboven, of vertel me hoe je je voelt — ik maak er iets lekkers van! 🥤</p>
     </div>
   </div>
 
@@ -898,7 +1032,7 @@ button#send-btn:disabled {
 <div class="profile-overlay" id="profile-overlay"></div>
 <aside class="profile-panel" id="profile-panel" aria-label="Jouw profiel">
   <div class="panel-header">
-    <span class="panel-title">Jouw Smoothie Profiel</span>
+    <span class="panel-title">Jouw profiel 🥤</span>
     <button class="panel-close" id="panel-close" aria-label="Sluiten">✕</button>
   </div>
   <div class="panel-body" id="panel-body">
@@ -945,9 +1079,61 @@ async function init() {
       updateProfileUI();
     }
   } catch (_) {}
+  checkDailyTip();
 }
 
 init();
+
+/* ═══════════════════════════════════════════════════
+   DAILY TIP
+═══════════════════════════════════════════════════ */
+const TIP_INTERVAL_MS = 20 * 60 * 60 * 1000; // 20 hours
+
+async function checkDailyTip() {
+  const last = parseInt(localStorage.getItem('bs_last_tip') || '0');
+  if (Date.now() - last < TIP_INTERVAL_MS) return;
+  try {
+    const res = await fetch(`${API}/tip/${sessionId}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data.tip) {
+      localStorage.setItem('bs_last_tip', Date.now().toString());
+      showProactiveTip(data.tip, data.type);
+    }
+  } catch (_) {}
+}
+
+function showProactiveTip(text, type) {
+  welcomeEl.style.display = 'none';
+
+  const badgeLabels = {
+    goal_reminder:    '🎯 Jouw doel',
+    ingredient_tip:   '🏠 Tip van thuis',
+    daily_suggestion: '📬 Tip van de dag',
+  };
+  const badge = badgeLabels[type] || '📬 Tip van de dag';
+
+  const msg = document.createElement('div');
+  msg.className = 'msg assistant msg-proactive';
+
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  avatar.textContent = '🥤';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.innerHTML = `<div class="proactive-badge">${badge}</div>`;
+
+  const textNode = document.createTextNode(text);
+  bubble.appendChild(textNode);
+
+  msg.appendChild(avatar);
+  msg.appendChild(bubble);
+  messagesEl.appendChild(msg);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+
+  history.push({ role: 'assistant', content: text });
+}
 
 /* ═══════════════════════════════════════════════════
    PROFILE UI
@@ -1061,7 +1247,6 @@ async function sendMessage(text) {
   if (!text || isLoading) return;
 
   welcomeEl.style.display = 'none';
-
   appendMessage('user', text);
   history.push({ role: 'user', content: text });
   inputEl.value = '';
@@ -1071,8 +1256,10 @@ async function sendMessage(text) {
   isLoading = true;
   sendBtn.disabled = true;
 
+  let fullReply = '';
+
   try {
-    const res = await fetch(`${API}/chat`, {
+    const res = await fetch(`${API}/chat/stream`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1081,34 +1268,117 @@ async function sendMessage(text) {
         history: history.slice(0, -1),
       }),
     });
-    const data = await res.json();
-    const reply = data.reply || 'Er is iets misgegaan. Probeer opnieuw.';
 
-    typingEl.remove();
-    appendMessage('assistant', reply);
-    history.push({ role: 'assistant', content: reply });
+    if (!res.ok) throw new Error('server error');
 
-    // Always re-fetch profile after a short delay so background extraction has time to finish
-    setTimeout(async () => {
-      try {
-        const pr = await fetch(`${API}/profile/${sessionId}`);
-        if (pr.ok) {
-          const updated = await pr.json();
-          if (JSON.stringify(updated) !== JSON.stringify(profile)) {
-            profile = updated;
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = '';
+    let streamState = null;
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream: true });
+      const parts = buf.split('\n\n');
+      buf = parts.pop();
+
+      for (const part of parts) {
+        if (!part.startsWith('data: ')) continue;
+        let evt;
+        try { evt = JSON.parse(part.slice(6)); } catch { continue; }
+
+        if (!streamState) {
+          typingEl.remove();
+          streamState = _startStreamBubble();
+        }
+
+        if (evt.token) _appendToken(streamState, evt.token);
+
+        if (evt.done) {
+          fullReply = streamState.raw;
+          _finalizeStreamBubble(streamState);
+          history.push({ role: 'assistant', content: fullReply });
+          if (evt.user_name && evt.user_name !== profile.name) {
+            profile.name = evt.user_name;
             updateProfileUI();
           }
+          setTimeout(_refreshProfile, 400);
         }
-      } catch (_) {}
-    }, 400);
+      }
+    }
+
+    // Safety: stream ended without done event
+    if (streamState && !fullReply) {
+      fullReply = streamState.raw;
+      _finalizeStreamBubble(streamState);
+      history.push({ role: 'assistant', content: fullReply });
+    }
+
   } catch (e) {
     typingEl.remove();
-    appendMessage('assistant', `Kan de backend niet bereiken. Is de server actief?`);
+    appendMessage('assistant', 'Kan de backend niet bereiken. Is de server actief?');
   } finally {
     isLoading = false;
     sendBtn.disabled = false;
     inputEl.focus();
   }
+}
+
+async function _refreshProfile() {
+  try {
+    const pr = await fetch(`${API}/profile/${sessionId}`);
+    if (pr.ok) {
+      const updated = await pr.json();
+      if (JSON.stringify(updated) !== JSON.stringify(profile)) {
+        profile = updated;
+        updateProfileUI();
+      }
+    }
+  } catch (_) {}
+}
+
+function _startStreamBubble() {
+  const msg = document.createElement('div');
+  msg.className = 'msg assistant';
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  avatar.textContent = '🥤';
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  const textNode = document.createElement('span');
+  textNode.style.whiteSpace = 'pre-wrap';
+  bubble.appendChild(textNode);
+  msg.appendChild(avatar);
+  msg.appendChild(bubble);
+  messagesEl.appendChild(msg);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+  return { msg, bubble, textNode, raw: '' };
+}
+
+function _appendToken(state, token) {
+  state.raw += token;
+  state.textNode.textContent = state.raw;
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function _finalizeStreamBubble(state) {
+  const text = state.raw;
+  const isRecipe = /ingredi[eë]nt|recept|stap\s*\d|ml\b|gram\b|eetlepel|theelepel/i.test(text);
+  if (isRecipe) {
+    const parts = text.split(/⚠️\s*\*/);
+    const body = parts[0].trim();
+    state.bubble.innerHTML = `<div class="recipe-card"><div class="recipe-header">📋 Recept</div>${buildRecipeHTML(body)}</div>`;
+    if (parts[1]) {
+      const disc = document.createElement('div');
+      disc.className = 'disclaimer';
+      disc.textContent = '⚠️ ' + parts[1].replace(/\*$/, '').trim();
+      state.bubble.appendChild(disc);
+    }
+  } else {
+    state.bubble.textContent = text;
+  }
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -1130,10 +1400,9 @@ function appendMessage(role, text) {
   bubble.className = 'msg-bubble';
 
   if (role === 'assistant' && isRecipe) {
-    // Strip the disclaimer line and render recipe card
     const parts = text.split(/⚠️\s*\*/);
     const body = parts[0].trim();
-    bubble.innerHTML = `<div class="recipe-card"><div class="recipe-header">📋 Recept</div><div class="recipe-body">${escHtml(body)}</div></div>`;
+    bubble.innerHTML = `<div class="recipe-card"><div class="recipe-header">📋 Recept</div>${buildRecipeHTML(body)}</div>`;
     if (parts[1]) {
       const disc = document.createElement('div');
       disc.className = 'disclaimer';
@@ -1172,6 +1441,80 @@ function appendTyping() {
 
 function escHtml(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function buildRecipeHTML(text) {
+  const lines = text.split('\n').map(l => l.trim());
+  let introLines = [], introKcal = null;
+  let sections = [], cur = null, pastFirst = false;
+
+  const classify = (line) => {
+    const s = line.replace(/[*_#]/g,'').toLowerCase();
+    if (/ingredi[eë]nt/i.test(s) && s.length < 100) return ['ingredients', '🧾 Ingrediënten'];
+    if (/(bereiding|bereidingswijze|stappen)/i.test(s) && s.length < 100) return ['steps', '👨‍🍳 Bereiding'];
+    if (/voedingsstoffen/i.test(s) && s.length < 100) return ['nutrients', '💊 Voedingsstoffen'];
+    if (/wat.*nodig.*hebt|nog.*nodig/i.test(s) && s.length < 130) return ['shopping', '🛒 Nog nodig'];
+    return null;
+  };
+
+  for (const line of lines) {
+    if (!line) continue;
+
+    if (/📊/.test(line)) {
+      const txt = line.replace(/📊\s*/,'').replace(/\*+/g,'').trim();
+      if (cur) cur.kcal = txt; else introKcal = txt;
+      continue;
+    }
+    if (/📖/i.test(line) && /bron/i.test(line)) {
+      if (cur) cur.source = line.replace(/\*+/g,'').trim();
+      continue;
+    }
+
+    const cat = classify(line);
+    if (cat) {
+      if (cur) sections.push(cur);
+      cur = { type: cat[0], label: cat[1], items: [], kcal: null, source: null };
+      pastFirst = true;
+      continue;
+    }
+
+    if (!pastFirst) {
+      introLines.push(line);
+    } else if (cur) {
+      const cleaned = line.replace(/^[-*•]\s+/,'').replace(/^\d+\.\s+/,'').trim();
+      if (cleaned) cur.items.push(cleaned);
+    }
+  }
+  if (cur) sections.push(cur);
+
+  if (!sections.length) return `<div class="recipe-body">${escHtml(text)}</div>`;
+
+  let html = '';
+  if (introLines.length) html += `<div class="recipe-intro">${escHtml(introLines.join(' '))}</div>`;
+  if (introKcal) html += `<div class="recipe-section" style="border-top:none;padding-top:0.35rem"><span class="recipe-kcal">📊 ${escHtml(introKcal)}</span></div>`;
+
+  for (const sec of sections) {
+    const extraCls = sec.type === 'shopping' ? ' recipe-shopping' : '';
+    html += `<div class="recipe-section">`;
+    html += `<div class="recipe-section-label">${escHtml(sec.label)}</div>`;
+
+    if (sec.items.length) {
+      if (sec.type === 'steps') {
+        html += `<ol class="recipe-steps">`;
+        sec.items.forEach(item => { html += `<li>${escHtml(item)}</li>`; });
+        html += `</ol>`;
+      } else {
+        html += `<ul class="recipe-list${extraCls}">`;
+        sec.items.forEach(item => { html += `<li>${escHtml(item)}</li>`; });
+        html += `</ul>`;
+      }
+    }
+
+    if (sec.kcal) html += `<div class="recipe-kcal-bar"><span class="recipe-kcal">📊 ${escHtml(sec.kcal)}</span></div>`;
+    if (sec.source) html += `<div class="recipe-source">${escHtml(sec.source)}</div>`;
+    html += `</div>`;
+  }
+  return html;
 }
 
 /* ═══════════════════════════════════════════════════

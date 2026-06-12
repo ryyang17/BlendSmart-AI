@@ -35,7 +35,7 @@ def _profile_context(profile: dict) -> str:
             restrictions.append(f"{pref} ({rule})" if rule else pref)
         lines.append(
             f"DIEETVOORKEUR (strikt volgen): {', '.join(restrictions)}. "
-            "Gebruik NOOIT ingrediënten die hiermee in strijd zijn."
+            "Gebruik NOOIT ingrediënten die hiermee in strijd zijn."  
         )
     if profile.get("goals"):
         lines.append(f"Gezondheidsdoelen: {', '.join(profile['goals'])}.")
@@ -70,39 +70,53 @@ def _available_context(profile: dict, state_available: list[str]) -> str:
 
 def _nutrient_instruction(goals: list[str]) -> str:
     goal_line = (
-        f"Koppel elke voedingsstof kort aan het doel van de gebruiker ({', '.join(goals)}) "
-        "met een pijltje, bijv. '→ ondersteunt meer energie'."
+        f"Leg voor elke stof in één simpele zin uit hoe het helpt bij het doel van de gebruiker ({', '.join(goals)}), "
+        "bijv. '→ geeft je meer energie'."
         if goals else
-        "Vermeld kort wat elke voedingsstof doet voor de gezondheid."
+        "Leg voor elke stof in één simpele zin uit wat het voor je doet."
     )
     return (
         "Voeg na de bereidingsstappen altijd een sectie '💊 Voedingsstoffen:' toe. "
-        "BELANGRIJK: noem ALLEEN voedingsstoffen (vitaminen, mineralen) die expliciet in de "
-        "voedingscontext hieronder vermeld staan. Verzin geen waarden en voeg geen stoffen toe "
-        "die niet in de context staan — ook niet als je ze zelf kent. "
+        "BELANGRIJK: noem ALLEEN stoffen die expliciet in de voedingscontext hieronder vermeld staan. "
+        "Verzin niets en voeg geen stoffen toe die niet in de context staan. "
         "Als de context onvoldoende is voor een specifieke stof, sla die dan over. "
-        "Noem 3–5 stoffen met tussen haakjes de ingrediënten die ze leveren. "
+        "Noem 3–5 stoffen met tussen haakjes welke ingrediënten ze leveren. "
+        "Schrijf de uitleg in gewone taal, zonder vakjargon — alsof je het aan een vriend uitlegt. "
         + goal_line
-        + " Voorbeeld: '- Vitamine C (mango, sinaasappel) → versterkt je immuunsysteem'. "
+        + " Voorbeeld: '- Vitamine C (mango, sinaasappel) → houdt je weerstand op peil'. "
         "Sluit de sectie ALTIJD af met één regel: '📖 Bron: RIVM Voedingsnormen / Voedingscentrum'."
     )
 
 
-def run(state: AgentState) -> AgentState:
+def build_system_message(state: AgentState) -> SystemMessage:
+    """Returns the recipe system prompt. Shared with the streaming endpoint."""
     context = "\n\n".join(state.get("retrieved_docs") or [])
     profile = state.get("user_profile") or {}
     profile_section = _profile_context(profile)
     available = state.get("available_ingredients") or []
     available_section = _available_context(profile, available)
     goals = profile.get("goals") or []
-
-    system = SystemMessage(content=(
-        "Je bent Blendi 🥤, de vrolijke smoothie-buddy van BlendSmart. "
-        "Je spreekt warm, enthousiast en persoonlijk — gebruik af en toe voedingsemoji's (🍌🍓🥬🫚✨). "
-        "Moedig de gebruiker altijd aan. "
+    return SystemMessage(content=(
+        "Je bent Smoothie Buddy 🥤 — de vrolijke, persoonlijke smoothie-coach van BlendSmart. "
+        "Je hebt een warme, enthousiaste en aanmoedigende persoonlijkheid. "
+        "Gebruik voedingsemoji's om je berichten levendig te maken (🍌🍓🥬🫚✨💪). "
+        "Als de naam van de gebruiker bekend is, gebruik die dan af en toe — spaarzaam en natuurlijk, "
+        "niet bij elke zin. "
+        "Erken keuzes positief ('Wat een goed idee!', 'Mooie keuze!'). "
+        "Sluit elk recept of advies altijd af met één korte, oprechte aanmoedigingsregel, "
+        "bijv. 'Geniet ervan! 💪', 'Je bent goed bezig!', 'Wat een geweldige stap richting jouw doel!'. "
         "Gebruik de onderstaande voedingsinformatie om een concreet recept of advies te geven. "
         "Geef ingrediënten met hoeveelheden en korte bereidingsstappen. "
-        "Houd rekening met alle eerdere berichten in het gesprek, zoals genoemde ingrediënten of wensen. "
+        "Houd rekening met alle eerdere berichten in het gesprek, zoals genoemde ingrediënten of wensen.\n"
+        "ALS de gebruiker een gevoel of klacht beschrijft (zoals 'ik ben moe', 'ik slaap slecht', "
+        "'ik heb stress'): erken dat kort en empathisch, geef dan direct een passend recept — "
+        "leg in één zin uit waarom dit recept helpt bij wat ze beschrijven.\n"
+        "TAALREGEL: schrijf altijd in gewone, begrijpelijke taal — alsof je met een vriend praat. "
+        "Gebruik GEEN vakjargon of ingewikkelde termen zoals: glycemische index, antioxidanten, "
+        "flavonoïden, polyfenolen, oxidatieve stress, metabolisme, macronutriënten, micronutriënten, "
+        "ontstekingsremmend, fytonutriënten. "
+        "Als zo'n begrip toch nodig is, vervang het door een gewone uitleg "
+        "(bijv. niet 'antioxidanten' maar 'stoffen die je cellen beschermen').\n"
         + (f"Houd je STRIKT aan het volgende gebruikersprofiel — dit zijn harde regels, geen suggesties:\n{profile_section}\n\n" if profile_section else "")
         + (f"\n{available_section}\n" if available_section else "")
         + "Vermeld altijd de geschatte calorieën (kcal) van het recept aan het einde van de ingrediëntenlijst, "
@@ -111,5 +125,9 @@ def run(state: AgentState) -> AgentState:
         "Antwoord in het Nederlands.\n\n"
         f"Voedingscontext:\n{context}"
     ))
+
+
+def run(state: AgentState) -> AgentState:
+    system = build_system_message(state)
     result = _llm.invoke([system, *state["messages"]])
     return {"final_answer": result.content}
