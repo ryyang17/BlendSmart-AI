@@ -104,6 +104,9 @@ Interactive elements:
 - **Profile panel** — slide-in panel showing known name, favorites, dislikes, allergies, dietary preferences, and goals as colored tags
 - **Recipe cards** — assistant messages containing recipes are automatically rendered in a distinct card format
 - **Personalized greeting** — header and welcome message update with the user's name once detected
+- **Blend Buddy (3D character)** — an always-visible animated smoothie-cup mascot rendered with Three.js on a `<canvas>` (`#buddy-canvas`). Its eyes/head follow the cursor; it idles (bob + blink), wobbles while waiting for a reply, and does a celebratory bounce when an answer arrives. A `window.BlendBuddy` API (`setState`/`endThinking`/`celebrate`/`setTheme`/`say`) is driven from `sendMessage()` and `applyTheme()`. The character is built entirely from primitives (no 3D model files), so only Three.js core is needed.
+
+Three.js is **vendored locally** at `app/frontend/static/vendor/three.min.js` (loaded via `<script src="/static/vendor/three.min.js">`) — no CDN, keeping the app internet-independent per the privacy-first rule. If `THREE` fails to load, the Buddy disables itself gracefully and the rest of the UI is unaffected.
 
 `session_id` is stored in `localStorage` so the same profile is loaded on return visits.
 

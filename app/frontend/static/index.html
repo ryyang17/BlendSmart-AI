@@ -360,6 +360,7 @@ header {
   font-weight: 700;
   color: var(--text);
   line-height: 1.2;
+  margin-top: 0.4rem;
 }
 
 .welcome p {
@@ -934,6 +935,51 @@ button#send-btn:disabled {
   .privacy-badge { display: none; }
   .mood-card { padding: 0.45rem 0.7rem; min-width: 64px; }
 }
+
+/* ═══════════════════════════════════════════════════
+   BLEND BUDDY (3D character)
+═══════════════════════════════════════════════════ */
+.buddy-widget {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  margin: 1.6rem auto 0.6rem;
+  pointer-events: none;     /* only the canvas itself is clickable */
+  filter: drop-shadow(0 16px 26px rgba(0,0,0,0.34));
+}
+.buddy-widget canvas {
+  pointer-events: auto;
+  cursor: pointer;
+  display: block;
+}
+.buddy-bubble {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: 8px;
+  width: max-content;
+  max-width: 230px;
+  padding: 0.5rem 0.8rem;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  color: var(--text);
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  text-align: center;
+  box-shadow: 0 8px 28px -8px rgba(0,0,0,0.5);
+  opacity: 0;
+  transform: translateX(-50%) translateY(6px) scale(0.92);
+  transform-origin: bottom center;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+.buddy-bubble.show { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+@media (max-width: 480px) {
+  .buddy-widget { width: 130px; height: 130px; }
+  .buddy-bubble { max-width: 180px; font-size: 0.74rem; }
+}
 </style>
 </head>
 <body>
@@ -992,9 +1038,12 @@ button#send-btn:disabled {
   <!-- MESSAGES -->
   <div class="messages" id="messages">
     <div class="welcome" id="welcome">
-      <div class="welcome-icon">🥤</div>
+      <!-- BLEND BUDDY (3D smoothie-cup character) -->
+      <div class="buddy-widget" id="buddy-widget" aria-hidden="true">
+        <div class="buddy-bubble" id="buddy-bubble"></div>
+        <canvas id="buddy-canvas"></canvas>
+      </div>
       <h2 id="welcome-title">Hallo, ik ben je<br/>Smoothie Buddy!</h2>
-      <p>Kies een stemming hierboven, of vertel me hoe je je voelt — ik maak er iets lekkers van! 🥤</p>
     </div>
   </div>
 
@@ -1040,6 +1089,8 @@ button#send-btn:disabled {
   </div>
 </aside>
 
+<!-- Three.js (bundled locally — no CDN, keeps the app internet-independent) -->
+<script src="/static/vendor/three.min.js"></script>
 <script>
 /* ═══════════════════════════════════════════════════
    STATE
@@ -1255,6 +1306,7 @@ async function sendMessage(text) {
   const typingEl = appendTyping();
   isLoading = true;
   sendBtn.disabled = true;
+  window.BlendBuddy && BlendBuddy.setState('thinking');
 
   let fullReply = '';
 
@@ -1299,6 +1351,7 @@ async function sendMessage(text) {
           fullReply = streamState.raw;
           _finalizeStreamBubble(streamState);
           history.push({ role: 'assistant', content: fullReply });
+          window.BlendBuddy && BlendBuddy.celebrate();
           if (evt.user_name && evt.user_name !== profile.name) {
             profile.name = evt.user_name;
             updateProfileUI();
@@ -1318,10 +1371,12 @@ async function sendMessage(text) {
   } catch (e) {
     typingEl.remove();
     appendMessage('assistant', 'Kan de backend niet bereiken. Is de server actief?');
+    window.BlendBuddy && BlendBuddy.setState('idle');
   } finally {
     isLoading = false;
     sendBtn.disabled = false;
     inputEl.focus();
+    window.BlendBuddy && BlendBuddy.endThinking();
   }
 }
 
@@ -1551,6 +1606,7 @@ function applyTheme(theme) {
   themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
   themeBtn.title = theme === 'dark' ? 'Schakel naar lichte modus' : 'Schakel naar donkere modus';
   localStorage.setItem('bs_theme', theme);
+  window.BlendBuddy && BlendBuddy.setTheme(theme);
 }
 
 // Apply saved theme on load (already set by inline script, just sync the button icon)
@@ -1565,6 +1621,230 @@ themeBtn.addEventListener('click', () => {
 document.querySelectorAll('.chip').forEach(chip => {
   chip.addEventListener('click', () => sendMessage(chip.dataset.prompt));
 });
+
+/* ═══════════════════════════════════════════════════
+   BLEND BUDDY — 3D smoothie-cup character (three.js)
+   Built from primitives (no external 3D models).
+   States: idle (bob + blink + look-at-cursor),
+           thinking (nervous wobble, stirring straw),
+           happy (celebratory bounce + big smile).
+═══════════════════════════════════════════════════ */
+(function initBlendBuddy() {
+  if (typeof THREE === 'undefined') { console.warn('Three.js niet geladen — Buddy uitgeschakeld.'); return; }
+  const canvas   = document.getElementById('buddy-canvas');
+  const widget   = document.getElementById('buddy-widget');
+  const bubbleEl = document.getElementById('buddy-bubble');
+  if (!canvas || !widget) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // --- renderer / scene / camera ---------------------------------------
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+  camera.position.set(0, 0.3, 7.8);
+  camera.lookAt(0, 0.25, 0);
+
+  // --- lights -----------------------------------------------------------
+  const ambient = new THREE.AmbientLight(0xffffff, 0.75);
+  const key     = new THREE.DirectionalLight(0xffffff, 1.1);
+  key.position.set(3, 5, 6);
+  const rim     = new THREE.DirectionalLight(0x9fe870, 0.5);  // lime rim light
+  rim.position.set(-4, 2, -3);
+  scene.add(ambient, key, rim);
+
+  // --- materials --------------------------------------------------------
+  const cupMat      = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3, metalness: 0, transparent: true, opacity: 0.55 });
+  const smoothieMat = new THREE.MeshStandardMaterial({ color: 0xe8637a, roughness: 0.5 });
+  const strawMat    = new THREE.MeshStandardMaterial({ color: 0x4ecdc4, roughness: 0.4 });
+  const eyeWhiteMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2 });
+  const darkMat     = new THREE.MeshStandardMaterial({ color: 0x21302a, roughness: 0.4 });
+  const cheekMat    = new THREE.MeshStandardMaterial({ color: 0xf2a0ad, roughness: 0.6, transparent: true, opacity: 0.8 });
+
+  const buddy = new THREE.Group();
+  scene.add(buddy);
+
+  // cup body (tapered cylinder) + smoothie fill + straw
+  buddy.add(new THREE.Mesh(new THREE.CylinderGeometry(1.15, 0.85, 2.2, 48, 1, false), cupMat));
+  const fill = new THREE.Mesh(new THREE.CylinderGeometry(1.08, 1.0, 0.5, 48), smoothieMat);
+  fill.position.y = 0.78;
+  buddy.add(fill);
+  const straw = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 2.6, 16), strawMat);
+  straw.position.set(0.45, 1.3, 0.2);
+  straw.rotation.z = 0.32;
+  buddy.add(straw);
+
+  // face group sits on the front of the cup
+  const face = new THREE.Group();
+  buddy.add(face);
+
+  function makeEye(x) {
+    const g     = new THREE.Group();
+    const white = new THREE.Mesh(new THREE.SphereGeometry(0.26, 24, 24), eyeWhiteMat);
+    const pupil = new THREE.Mesh(new THREE.SphereGeometry(0.13, 20, 20), darkMat);
+    pupil.position.z = 0.18;
+    const shine = new THREE.Mesh(new THREE.SphereGeometry(0.04, 10, 10), eyeWhiteMat);
+    shine.position.set(0.05, 0.06, 0.12);
+    pupil.add(shine);
+    g.add(white, pupil);
+    g.position.set(x, 0.25, 1.02);
+    g._pupil = pupil; g._white = white;
+    return g;
+  }
+  const eyeL = makeEye(-0.42);
+  const eyeR = makeEye(0.42);
+  face.add(eyeL, eyeR);
+
+  // mouth — lower half of a torus = smile
+  const mouth = new THREE.Mesh(new THREE.TorusGeometry(0.22, 0.05, 10, 24, Math.PI), darkMat);
+  mouth.position.set(0, -0.28, 1.02);
+  mouth.rotation.z = Math.PI;
+  face.add(mouth);
+
+  // cheeks
+  const cheekL = new THREE.Mesh(new THREE.SphereGeometry(0.12, 16, 16), cheekMat);
+  cheekL.position.set(-0.58, -0.05, 0.86);
+  cheekL.scale.set(1, 0.7, 0.5);
+  const cheekR = cheekL.clone();
+  cheekR.position.x = 0.58;
+  face.add(cheekL, cheekR);
+
+  // --- state ------------------------------------------------------------
+  let state = 'idle';
+  let happyUntil = 0;
+  let elapsed = 0;
+  const pointer = { x: 0, y: 0 };   // -1..1 across the viewport
+  const look    = { x: 0, y: 0 };   // smoothed
+  let blinkTimer = 1 + Math.random() * 3;
+  let blink = 0;                    // 1 = closed
+  const clock = new THREE.Clock();
+  let running = true, raf = null;
+
+  function setState(s) {
+    if (s === 'thinking') { state = 'thinking'; smoothieMat.color.setHex(0xc9a84c); }
+    else if (s === 'idle') { state = 'idle'; smoothieMat.color.setHex(0xe8637a); }
+  }
+  function endThinking() { if (state === 'thinking') setState('idle'); }
+  function celebrate() { state = 'happy'; happyUntil = elapsed + 1.6; smoothieMat.color.setHex(0x9fe870); }
+  function setTheme(theme) {
+    if (theme === 'light') { ambient.intensity = 0.95; key.intensity = 1.0; cupMat.opacity = 0.7; }
+    else                   { ambient.intensity = 0.75; key.intensity = 1.1; cupMat.opacity = 0.55; }
+  }
+
+  // --- speech bubble ----------------------------------------------------
+  let bubbleTimer = null;
+  function say(text, ms = 3200) {
+    if (!bubbleEl) return;
+    bubbleEl.textContent = text;
+    bubbleEl.classList.add('show');
+    clearTimeout(bubbleTimer);
+    bubbleTimer = setTimeout(() => bubbleEl.classList.remove('show'), ms);
+  }
+  const QUIPS = [
+    'Hoi! Klaar om te blenden? 🥤',
+    'Vertel me hoe je je voelt!',
+    'Zin in iets fris?',
+    'Tip: kies een stemming hierboven ✨',
+    'Ik ken lekkere combinaties!',
+  ];
+
+  // --- interaction ------------------------------------------------------
+  window.addEventListener('pointermove', (e) => {
+    pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+    pointer.y = (e.clientY / window.innerHeight) * 2 - 1;
+  });
+  canvas.addEventListener('click', () => {
+    celebrate();
+    say(QUIPS[Math.floor(Math.random() * QUIPS.length)]);
+  });
+
+  // --- sizing & placement ----------------------------------------------
+  function resize() {
+    const r = widget.getBoundingClientRect();
+    const w = Math.max(1, r.width), h = Math.max(1, r.height);
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(widget);
+  window.addEventListener('resize', resize);
+  resize();
+
+  document.addEventListener('visibilitychange', () => {
+    running = !document.hidden;
+    if (running && raf === null) { clock.getDelta(); loop(); }
+  });
+
+  // --- render loop ------------------------------------------------------
+  function loop() {
+    if (!running) { raf = null; return; }
+    raf = requestAnimationFrame(loop);
+    const dt = Math.min(clock.getDelta(), 0.05);
+    elapsed += dt;
+    const t = elapsed;
+    const k = reduceMotion ? 0 : 1;
+
+    // eyes / head follow the cursor
+    look.x += (THREE.MathUtils.clamp(pointer.x, -1, 1) - look.x) * Math.min(1, dt * 6);
+    look.y += (THREE.MathUtils.clamp(pointer.y, -1, 1) - look.y) * Math.min(1, dt * 6);
+    buddy.rotation.y = look.x * 0.4 * k;
+    buddy.rotation.x = look.y * 0.18 * k;
+    [eyeL, eyeR].forEach(eye => {
+      eye._pupil.position.x = look.x * 0.09;
+      eye._pupil.position.y = -look.y * 0.07 + (state === 'thinking' ? 0.07 : 0);
+    });
+
+    // blink
+    if (!reduceMotion) {
+      blinkTimer -= dt;
+      if (blinkTimer <= 0) { blink = 1; blinkTimer = 2.5 + Math.random() * 3; }
+      blink = Math.max(0, blink - dt * 8);
+      const open = 1 - blink;
+      eyeL._white.scale.y = open; eyeR._white.scale.y = open;
+      eyeL._pupil.visible = open > 0.3; eyeR._pupil.visible = open > 0.3;
+    }
+
+    // body motion per state
+    let bob = 0, tilt = 0, scaleP = 1;
+    if (!reduceMotion) {
+      if (state === 'idle') {
+        bob  = Math.sin(t * 2)   * 0.06;
+        tilt = Math.sin(t * 1.3) * 0.03;
+      } else if (state === 'thinking') {
+        tilt = Math.sin(t * 7) * 0.09;
+        bob  = Math.sin(t * 4) * 0.03;
+      } else if (state === 'happy') {
+        const p = Math.max(0, (happyUntil - t) / 1.6);
+        bob    = Math.abs(Math.sin(t * 12)) * 0.22 * p;
+        scaleP = 1 + Math.sin(t * 12) * 0.05 * p;
+        if (happyUntil - t <= 0) setState('idle');
+      }
+    }
+    buddy.position.y = bob;
+    buddy.rotation.z = tilt;
+    buddy.scale.setScalar(scaleP);
+
+    // mouth: wide smile when happy, smaller when thinking
+    const smileX = state === 'happy' ? 1.35 : (state === 'thinking' ? 0.7 : 1);
+    const smileY = state === 'happy' ? 1.3 : 1;
+    mouth.scale.x += (smileX - mouth.scale.x) * Math.min(1, dt * 8);
+    mouth.scale.y += (smileY - mouth.scale.y) * Math.min(1, dt * 8);
+
+    // straw stirs while thinking
+    const strawTarget = (state === 'thinking' && !reduceMotion) ? 0.32 + Math.sin(t * 8) * 0.12 : 0.32;
+    straw.rotation.z += (strawTarget - straw.rotation.z) * Math.min(1, dt * 6);
+
+    // skip drawing while the welcome (and thus the buddy) is hidden
+    if (widget.offsetParent !== null) renderer.render(scene, camera);
+  }
+
+  setTheme(localStorage.getItem('bs_theme') || 'dark');
+  loop();
+  setTimeout(() => say(QUIPS[0]), 1200);
+
+  window.BlendBuddy = { setState, endThinking, celebrate, setTheme, say };
+})();
 </script>
 </body>
 </html>
