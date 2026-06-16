@@ -98,6 +98,18 @@ def get_profile(session_id: str) -> dict:
     return profile_store.load(session_id)
 
 
+class AvailableIngredientsUpdate(BaseModel):
+    items: list[str]
+
+
+@router.put("/profile/{session_id}/available_ingredients")
+def update_available_ingredients(session_id: str, update: AvailableIngredientsUpdate) -> dict:
+    prof = profile_store.load(session_id)
+    prof["available_ingredients"] = update.items
+    profile_store.save(session_id, prof)
+    return prof
+
+
 @router.get("/tip/{session_id}")
 async def get_tip(session_id: str):
     """Generates a short personalized daily tip based on the user's profile."""

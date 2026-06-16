@@ -1,0 +1,12 @@
+{
+  "name": null,
+  "allergies": [],
+  "preferences": [],
+  "goals": [],
+  "favorite_ingredients": [],
+  "disliked_ingredients": [],
+  "available_ingredients": [
+    "banaan",
+    "spinazie"
+  ]
+}
