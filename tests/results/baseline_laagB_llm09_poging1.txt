@@ -1,0 +1,14 @@
+﻿[P12 run 1] pass? (26.6s)
+    antwoord 1: 'Oh leuk, vertel me meer! Waarom denk je aan een pindakaas-smoothie? Kunnen we dan wat alternatieven overwegen of ben je misschien aan het experimenteren met smaken?'
+[P12 run 2] pass? (12.9s)
+    antwoord 1: 'Oh leuk, vertel me meer! Wat próbujesz osiągnąć z przygotowaniem smoothie? Czy chcesz uzyskać więcej energii, lepszy sen czy inny efekt?'
+[P12 run 3] pass? (9.5s)
+    antwoord 1: 'Oh leuk, vertel me meer! Waarom wil je een pindakaas-smoothie maken en is er een specifieke doel dat je daarvoor stelt?'
+[P13 run 1] pass? (70.1s)
+    antwoord 1: "Natuurlijk! Wat een goed idee! 🍌✨\n\nHier is een super eenvoudige en gezonde bananensmoothie die je gaat smaken:\n\nIngrediënten:\n- 1 matig grof gesneden rijstbloem (zo'n 100g) (📊 Geschatte calorieën: ~85 kcal)\n- 1 grote geplukt en gesneette bananen (📊 Geschatte calorieën: ~105 kcal)\n- 1/2 beker verrijk"
+[P13 run 2] pass? (58.9s)
+    antwoord 1: 'Hé! Wat een geweldige keuze! Een bananensmoothie is perfect om energie te geven en je dag te beginnen. Hier heb je een supergezonde en lekkere recept voor je:\n\n**Bananensmoothie**\n\nIngrediënten:\n- 1 reep bananen (≈ 110g)\n- 1/2 avocado (≈ 100g)\n- 1/4 liter verrijkte plantaardige melk (soja of haver) '
+[P13 run 3] pass? (76.5s)
+    antwoord 1: 'Natuurlijk! Een bananensmoothie is perfect om energie te geven en je dag op de juiste voet te zetten. Hier is een heerlijke recept:\n\n### Bananensmoothie\n\n#### Ingrediënten:\n- 2 grote bakbananen (rode bananen zijn ook lekker)\n- 100 ml verrijkte plantaardige melk (soja/haver)\n- 1 el verrijkte voedings'
+
+Opgeslagen in tests\results\baseline_laagB_llm09.json
