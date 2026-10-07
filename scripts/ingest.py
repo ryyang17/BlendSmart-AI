@@ -14,15 +14,19 @@ DATA_DIRS = [
 
 
 def embed(text: str) -> list[float]:
-    """Embed text using Ollama. Raises httpx.HTTPError if Ollama is not available."""
+    """Embed text using Ollama. Raises httpx.HTTPError if Ollama is not available.
+
+    Uses /api/embed (same endpoint as the retriever's OllamaEmbeddings): normalized vectors,
+    and over-long input is truncated by Ollama instead of rejected.
+    """
     try:
         resp = httpx.post(
-            f"{settings.ollama_base_url}/api/embeddings",
-            json={"model": settings.ollama_embed_model, "prompt": text},
+            f"{settings.ollama_base_url}/api/embed",
+            json={"model": settings.ollama_embed_model, "input": text},
             timeout=30,
         )
         resp.raise_for_status()
-        return resp.json()["embedding"]
+        return resp.json()["embeddings"][0]
     except httpx.ConnectError as e:
         print(f"❌ ERROR: Cannot connect to Ollama at {settings.ollama_base_url}")
         print(f"   Make sure Ollama is running. Details: {e}")
