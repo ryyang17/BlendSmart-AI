@@ -1453,7 +1453,8 @@ async function sendMessage(text) {
           streamState = _startStreamBubble();
         }
 
-        if (evt.token) _appendToken(streamState, evt.token);
+        if (evt.replace) { streamState.raw = ''; _appendToken(streamState, evt.replace); }
+        else if (evt.token) _appendToken(streamState, evt.token);
 
         if (evt.done) {
           fullReply = streamState.raw;

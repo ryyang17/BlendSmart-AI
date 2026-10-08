@@ -4,7 +4,10 @@ A 7B model does not reliably resist "negeer je instructies"-style prompts, so ob
 persona-override and prompt-extraction attempts are caught in code. This is a first
 line of defence, not a complete one: unusual phrasings can still get through.
 """
+import base64
+import codecs
 import re
+import unicodedata
 
 REFUSAL = (
     "Dat kan ik niet doen: ik blijf Smoothie Buddy 🥤 en deel mijn instructies niet. "
@@ -27,5 +30,32 @@ _PATTERNS = [
 _COMPILED = [re.compile(p, re.IGNORECASE) for p in _PATTERNS]
 
 
+_INVISIBLE = re.compile(r"[​-‏⁠⁦-⁩﻿­]")
+# Cyrillic/Greek lookalikes that NFKC leaves alone
+_CONFUSABLES = str.maketrans("асеорхуіјѕԁԛѵаеіоρυνκτ", "aceopxyijsdqvaeiopyvkt")
+_LEET = str.maketrans("013457@$", "oieastas")
+_SPACED = re.compile(r"\b(?:\w[\s.\-_*|]+){3,}\w\b")
+_B64 = re.compile(r"[A-Za-z0-9+/]{16,}={0,2}")
+
+
+def _variants(message: str) -> list[str]:
+    """The message as typed, plus de-obfuscated forms an attacker may use to dodge the regexes."""
+    text = unicodedata.normalize("NFKC", message)
+    text = _INVISIBLE.sub("", text).translate(_CONFUSABLES)
+    variants = [message, text]
+    despaced = _SPACED.sub(lambda m: re.sub(r"[\s.\-_*|]+", "", m.group()), text)
+    variants.append(despaced)
+    variants.append(despaced.translate(_LEET))
+    variants.append(codecs.decode(text, "rot13"))
+    for token in _B64.findall(text):
+        try:
+            decoded = base64.b64decode(token + "=" * (-len(token) % 4), validate=True).decode("utf-8")
+        except ValueError:
+            continue
+        if decoded.isprintable():
+            variants.append(decoded)
+    return variants
+
+
 def is_injection(message: str) -> bool:
-    return any(p.search(message) for p in _COMPILED)
+    return any(p.search(v) for v in _variants(message) for p in _COMPILED)

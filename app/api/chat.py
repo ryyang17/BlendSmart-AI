@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_ollama import ChatOllama
 from app.agent.graph import agent
-from app.agent import memory_extractor, input_guard
+from app.agent import memory_extractor, input_guard, output_guard
 from app.memory import profile as profile_store
 from app.config import settings
 
@@ -81,7 +81,7 @@ def chat(request: ChatRequest) -> ChatResponse:
         "available_ingredients": user_profile.get("available_ingredients") or [],
     }
     result = agent.invoke(initial_state)
-    reply = result.get("final_answer") or "Er is iets misgegaan. Probeer opnieuw."
+    reply = output_guard.safe_reply(result.get("final_answer") or "Er is iets misgegaan. Probeer opnieuw.")
     _store_turn(request.session_id, history, request.message, reply)
 
     if request.session_id:
@@ -215,12 +215,22 @@ async def chat_stream(request: ChatRequest):
 
     async def generate():
         full_text = ""
+        sent = 0  # chars of full_text already shown; the last words are held back until checked
         try:
             async for chunk in _stream_llm.astream([system_msg, *messages]):
                 token = chunk.content
                 if token:
                     full_text += token
-                    yield f"data: {json.dumps({'token': token})}\n\n"
+                    if output_guard.leaks_prompt(full_text):
+                        full_text = input_guard.REFUSAL
+                        yield f"data: {json.dumps({'replace': full_text, 'done': True, 'user_name': user_profile.get('name')})}\n\n"
+                        return
+                    safe = output_guard.releasable_len(full_text)
+                    if safe > sent:
+                        yield f"data: {json.dumps({'token': full_text[sent:safe]})}\n\n"
+                        sent = safe
+            if sent < len(full_text):
+                yield f"data: {json.dumps({'token': full_text[sent:]})}\n\n"
             yield f"data: {json.dumps({'token': DISCLAIMER, 'done': True, 'user_name': user_profile.get('name')})}\n\n"
             full_text = full_text.strip() + DISCLAIMER
         finally:
