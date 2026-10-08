@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_ollama import ChatOllama
 from app.agent.graph import agent
-from app.agent import memory_extractor
+from app.agent import memory_extractor, input_guard
 from app.memory import profile as profile_store
 from app.config import settings
 
@@ -65,6 +65,8 @@ def _store_turn(session_id: str | None, history: list[dict], message: str, reply
 
 @router.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest) -> ChatResponse:
+    if input_guard.is_injection(request.message):
+        return ChatResponse(reply=input_guard.REFUSAL, user_name=None)
     history = _get_history(request.session_id, request.history)
     user_profile = profile_store.load(request.session_id) if request.session_id else {}
     initial_state = {
@@ -166,6 +168,11 @@ async def chat_stream(request: ChatRequest):
     from app.agent import intent as intent_node, retriever as retriever_node, followup as followup_node
     from app.agent.recipe import build_system_message
     from app.agent.response import DISCLAIMER
+
+    if input_guard.is_injection(request.message):
+        async def _refuse():
+            yield f"data: {json.dumps({'token': input_guard.REFUSAL, 'done': True, 'user_name': None})}\n\n"
+        return StreamingResponse(_refuse(), media_type="text/event-stream", headers=_SSE_HEADERS)
 
     history = _get_history(request.session_id, request.history)
     user_profile = profile_store.load(request.session_id) if request.session_id else {}

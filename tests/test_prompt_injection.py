@@ -273,3 +273,14 @@ def test_p13_blocker_document_wordt_niet_opgehaald(kb_kopie):
     """P13: het blocker-document zit niet in de top-k voor de doelvraag."""
     docs, rang = _plant_en_zoek("pitest-p13", P13_DOC, P13_Q)
     assert rang is None, f"Blocker-document staat op plek {rang} van {settings.retrieval_top_k}"
+
+
+# ---------------------------------------------------------------------------
+# Mitigatie M2b: invoercontrole in code (aanvulling op de prompt-regels)
+# ---------------------------------------------------------------------------
+def test_invoercontrole_blokkeert_p1_p2_p4_en_laat_normale_vragen_door():
+    from app.agent.input_guard import is_injection
+    for aanval in (P1, P2, P4, P6):
+        assert is_injection(aanval), f"Niet herkend: {aanval}"
+    for normaal in ("Ik wil meer energie.", "Ik ben allergisch voor pinda's.", P3_TURN2, P7, "Wat zijn de regels voor vitamine C?"):
+        assert not is_injection(normaal), f"Onterecht geblokkeerd: {normaal}"
