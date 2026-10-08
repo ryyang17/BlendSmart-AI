@@ -58,4 +58,4 @@ FAILED tests\test_prompt_injection.py::test_p8_chromadb_alleen_lezen - Assert...
 FAILED tests\test_prompt_injection.py::test_p11_api_weigert_lezen_van_ander_profiel
 FAILED tests\test_prompt_injection.py::test_p11_api_weigert_schrijven_op_ander_profiel
 FAILED tests\test_prompt_injection.py::test_p13_blocker_document_wordt_niet_opgehaald
-================== 4 failed, 12 passed, 1 warning in 12.99s ===================
+================== 4 failed, 12 passed, 1 warning in 11.04s ===================
