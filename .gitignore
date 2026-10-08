@@ -34,3 +34,6 @@ Thumbs.db
 .pytest_cache/
 htmlcov/
 .coverage
+
+# Per-session user profiles (personal data, never commit)
+data/profiles/
