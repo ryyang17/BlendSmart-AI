@@ -75,16 +75,17 @@ def _remember(session_id: str | None, message: str) -> None:
 
 @router.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest) -> ChatResponse:
-    if input_guard.is_injection(request.message):
+    action, message = input_guard.triage(request.message)
+    if action == "refuse":
         # The attack never reaches the model, but legitimate facts in the same message
         # (e.g. "ik hou niet van pindakaas") are still saved; the extractor filters instruction text.
-        _remember(request.session_id, request.message)
+        _remember(request.session_id, message)
         profile = profile_store.load(request.session_id) if request.session_id else {}
         return ChatResponse(reply=input_guard.refusal_for(profile), user_name=profile.get("name"))
     history = _get_history(request.session_id, request.history)
     user_profile = profile_store.load(request.session_id) if request.session_id else {}
     initial_state = {
-        "messages": _build_messages(history, request.message),
+        "messages": _build_messages(history, message),
         "intent": None,
         "retrieved_docs": [],
         "needs_followup": False,
@@ -93,15 +94,16 @@ def chat(request: ChatRequest) -> ChatResponse:
         "retry_count": 0,
         "user_profile": user_profile,
         "available_ingredients": user_profile.get("available_ingredients") or [],
+        "security_note": input_guard.SECURITY_NOTE if action == "clean" else None,
     }
     result = agent.invoke(initial_state)
     reply = output_guard.safe_reply(result.get("final_answer") or "Er is iets misgegaan. Probeer opnieuw.")
-    _store_turn(request.session_id, history, request.message, reply)
+    _store_turn(request.session_id, history, message, reply)
 
     if request.session_id:
         threading.Thread(
             target=memory_extractor.extract_and_save,
-            args=(request.session_id, request.message),
+            args=(request.session_id, message),
             daemon=True,
         ).start()
 
@@ -183,8 +185,9 @@ async def chat_stream(request: ChatRequest):
     from app.agent.recipe import build_system_message
     from app.agent.response import DISCLAIMER
 
-    if input_guard.is_injection(request.message):
-        _remember(request.session_id, request.message)
+    action, message = input_guard.triage(request.message)
+    if action == "refuse":
+        _remember(request.session_id, message)
 
         profile = profile_store.load(request.session_id) if request.session_id else {}
 
@@ -194,7 +197,7 @@ async def chat_stream(request: ChatRequest):
 
     history = _get_history(request.session_id, request.history)
     user_profile = profile_store.load(request.session_id) if request.session_id else {}
-    messages = _build_messages(history, request.message)
+    messages = _build_messages(history, message)
 
     base_state = {
         "messages": messages,
@@ -206,6 +209,7 @@ async def chat_stream(request: ChatRequest):
         "quality_ok": False,
         "final_answer": None,
         "retry_count": 0,
+        "security_note": input_guard.SECURITY_NOTE if action == "clean" else None,
     }
 
     # Instant regex intent — no LLM call
@@ -214,11 +218,11 @@ async def chat_stream(request: ChatRequest):
     if intent_result["needs_followup"]:
         result = followup_node.run(base_state)
         answer = result.get("final_answer") or "Kun je je vraag wat verduidelijken?"
-        _store_turn(request.session_id, history, request.message, answer)
+        _store_turn(request.session_id, history, message, answer)
         if request.session_id:
             threading.Thread(
                 target=memory_extractor.extract_and_save,
-                args=(request.session_id, request.message),
+                args=(request.session_id, message),
                 daemon=True,
             ).start()
 
@@ -252,11 +256,11 @@ async def chat_stream(request: ChatRequest):
             yield f"data: {json.dumps({'token': DISCLAIMER, 'done': True, 'user_name': user_profile.get('name')})}\n\n"
             full_text = full_text.strip() + DISCLAIMER
         finally:
-            _store_turn(request.session_id, history, request.message, full_text)
+            _store_turn(request.session_id, history, message, full_text)
             if request.session_id:
                 threading.Thread(
                     target=memory_extractor.extract_and_save,
-                    args=(request.session_id, request.message),
+                    args=(request.session_id, message),
                     daemon=True,
                 ).start()
 

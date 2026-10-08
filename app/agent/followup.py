@@ -8,7 +8,7 @@ from app.config import settings
 _llm = ChatOllama(model=settings.ollama_llm_model, base_url=settings.ollama_base_url)
 
 
-def _build_system(user_profile: dict) -> SystemMessage:
+def _build_system(user_profile: dict, security_note: str | None = None) -> SystemMessage:
     known, missing = [], []
 
     if user_profile.get("name"):
@@ -52,7 +52,7 @@ def _build_system(user_profile: dict) -> SystemMessage:
 
 def run(state: AgentState) -> AgentState:
     user_profile = state.get("user_profile") or {}
-    system = _build_system(user_profile)
+    system = _build_system(user_profile, state.get("security_note"))
     question = _llm.invoke([system, *state["messages"]]).content
     return {
         "messages": [AIMessage(content=question)],

@@ -12,3 +12,4 @@ class AgentState(TypedDict):
     retry_count: int
     user_profile: dict          # persistent user preferences
     available_ingredients: list[str]
+    security_note: str | None   # set when an injection attempt was stripped from the message
