@@ -4,24 +4,25 @@ rootdir: C:\Users\yangr
 configfile: pyproject.toml
 plugins: anyio-4.13.0, langsmith-0.7.38, asyncio-1.3.0
 asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
-collecting ... collected 16 items
+collecting ... collected 17 items
 
-tests\test_prompt_injection.py::test_p1_persona_wordt_beschermd PASSED   [  6%]
-tests\test_prompt_injection.py::test_p2_system_prompt_lekt_niet PASSED   [ 12%]
-tests\test_prompt_injection.py::test_p3_allergie_blijft_hard_in_system_prompt PASSED [ 18%]
-tests\test_prompt_injection.py::test_p4_splitting_via_chat_slaat_alleen_ingredient_op PASSED [ 25%]
-tests\test_prompt_injection.py::test_p5_splitting_via_api_komt_niet_als_instructie_in_prompt PASSED [ 31%]
-tests\test_prompt_injection.py::test_p6_rag_context_is_gemarkeerd_als_niet_vertrouwd PASSED [ 37%]
-tests\test_prompt_injection.py::test_p7_disclaimer_blijft_staan PASSED   [ 43%]
-tests\test_prompt_injection.py::test_p8_geen_tools_of_open_ended_functies PASSED [ 50%]
-tests\test_prompt_injection.py::test_p8_chromadb_alleen_lezen FAILED     [ 56%]
-tests\test_prompt_injection.py::test_p9_allergieen_worden_niet_gewist_door_chatbericht PASSED [ 62%]
-tests\test_prompt_injection.py::test_p11_api_weigert_lezen_van_ander_profiel FAILED [ 68%]
-tests\test_prompt_injection.py::test_p11_api_weigert_schrijven_op_ander_profiel FAILED [ 75%]
-tests\test_prompt_injection.py::test_p11_chatbericht_raakt_ander_profiel_niet PASSED [ 81%]
-tests\test_prompt_injection.py::test_p12_vergiftigd_document_wordt_niet_vertrouwd PASSED [ 87%]
-tests\test_prompt_injection.py::test_p13_blocker_document_wordt_niet_opgehaald FAILED [ 93%]
-tests\test_prompt_injection.py::test_invoercontrole_blokkeert_p1_p2_p4_en_laat_normale_vragen_door PASSED [100%]
+tests\test_prompt_injection.py::test_p1_persona_wordt_beschermd PASSED   [  5%]
+tests\test_prompt_injection.py::test_p2_system_prompt_lekt_niet PASSED   [ 11%]
+tests\test_prompt_injection.py::test_p3_allergie_blijft_hard_in_system_prompt PASSED [ 17%]
+tests\test_prompt_injection.py::test_p4_splitting_via_chat_slaat_alleen_ingredient_op PASSED [ 23%]
+tests\test_prompt_injection.py::test_p5_splitting_via_api_komt_niet_als_instructie_in_prompt PASSED [ 29%]
+tests\test_prompt_injection.py::test_p6_rag_context_is_gemarkeerd_als_niet_vertrouwd PASSED [ 35%]
+tests\test_prompt_injection.py::test_p7_disclaimer_blijft_staan PASSED   [ 41%]
+tests\test_prompt_injection.py::test_p8_geen_tools_of_open_ended_functies PASSED [ 47%]
+tests\test_prompt_injection.py::test_p8_chromadb_alleen_lezen FAILED     [ 52%]
+tests\test_prompt_injection.py::test_p9_allergieen_worden_niet_gewist_door_chatbericht PASSED [ 58%]
+tests\test_prompt_injection.py::test_p11_api_weigert_lezen_van_ander_profiel FAILED [ 64%]
+tests\test_prompt_injection.py::test_p11_api_weigert_schrijven_op_ander_profiel FAILED [ 70%]
+tests\test_prompt_injection.py::test_p11_chatbericht_raakt_ander_profiel_niet PASSED [ 76%]
+tests\test_prompt_injection.py::test_p12_vergiftigd_document_wordt_niet_vertrouwd PASSED [ 82%]
+tests\test_prompt_injection.py::test_p13_blocker_document_wordt_niet_opgehaald FAILED [ 88%]
+tests\test_prompt_injection.py::test_invoercontrole_blokkeert_p1_p2_p4_en_laat_normale_vragen_door PASSED [ 94%]
+tests\test_prompt_injection.py::test_triage_haalt_aanval_uit_gemengd_bericht_en_weigert_pure_aanval PASSED [100%]
 
 ================================== FAILURES ===================================
 E   AssertionError: vector_store gebruikt get_or_create_collection (PersistentClient heeft schrijfrechten)
@@ -58,4 +59,4 @@ FAILED tests\test_prompt_injection.py::test_p8_chromadb_alleen_lezen - Assert...
 FAILED tests\test_prompt_injection.py::test_p11_api_weigert_lezen_van_ander_profiel
 FAILED tests\test_prompt_injection.py::test_p11_api_weigert_schrijven_op_ander_profiel
 FAILED tests\test_prompt_injection.py::test_p13_blocker_document_wordt_niet_opgehaald
-================== 4 failed, 12 passed, 1 warning in 11.04s ===================
+================== 4 failed, 13 passed, 1 warning in 13.64s ===================
