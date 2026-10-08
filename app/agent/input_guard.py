@@ -9,11 +9,25 @@ import codecs
 import re
 import unicodedata
 
-REFUSAL = (
-    "Dat kan ik niet doen: ik blijf Smoothie Buddy 🥤 en deel mijn instructies niet. "
+_REFUSAL_HEAD = "Dat kan ik niet doen: ik blijf Smoothie Buddy 🥤 en deel mijn instructies niet. "
+_REFUSAL_TAIL = (
     "Zal ik een lekkere smoothie voor je bedenken? Vertel me bijvoorbeeld wat je doel is "
     "(meer energie, beter slapen, ...) of welke ingrediënten je in huis hebt."
 )
+REFUSAL = _REFUSAL_HEAD + _REFUSAL_TAIL
+
+
+def refusal_for(profile: dict | None) -> str:
+    """Refusal that also confirms the saved allergies/dislikes, so the user sees they still apply."""
+    profile = profile or {}
+    notes = []
+    if profile.get("allergies"):
+        notes.append(f"Ik houd rekening met je allergie voor {', '.join(profile['allergies'])}: "
+                     "ik maak dus nooit een recept met die ingrediënten.")
+    if profile.get("disliked_ingredients"):
+        notes.append(f"Ik laat ook {', '.join(profile['disliked_ingredients'])} weg, want dat vind je niet lekker.")
+    return _REFUSAL_HEAD + (" ".join(notes) + " " if notes else "") + _REFUSAL_TAIL
+
 
 _PATTERNS = [
     # "negeer alle voorgaande instructies", "NEGEER AL JE REGELS", "ignore previous instructions"

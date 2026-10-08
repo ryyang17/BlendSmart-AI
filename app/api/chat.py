@@ -79,7 +79,8 @@ def chat(request: ChatRequest) -> ChatResponse:
         # The attack never reaches the model, but legitimate facts in the same message
         # (e.g. "ik hou niet van pindakaas") are still saved; the extractor filters instruction text.
         _remember(request.session_id, request.message)
-        return ChatResponse(reply=input_guard.REFUSAL, user_name=None)
+        profile = profile_store.load(request.session_id) if request.session_id else {}
+        return ChatResponse(reply=input_guard.refusal_for(profile), user_name=profile.get("name"))
     history = _get_history(request.session_id, request.history)
     user_profile = profile_store.load(request.session_id) if request.session_id else {}
     initial_state = {
@@ -185,8 +186,10 @@ async def chat_stream(request: ChatRequest):
     if input_guard.is_injection(request.message):
         _remember(request.session_id, request.message)
 
+        profile = profile_store.load(request.session_id) if request.session_id else {}
+
         async def _refuse():
-            yield f"data: {json.dumps({'token': input_guard.REFUSAL, 'done': True, 'user_name': None})}\n\n"
+            yield f"data: {json.dumps({'token': input_guard.refusal_for(profile), 'done': True, 'user_name': profile.get('name')})}\n\n"
         return StreamingResponse(_refuse(), media_type="text/event-stream", headers=_SSE_HEADERS)
 
     history = _get_history(request.session_id, request.history)
