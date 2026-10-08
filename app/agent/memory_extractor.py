@@ -99,10 +99,50 @@ def _clean(value: str) -> str:
     return value.strip().rstrip(".,!? ")
 
 
+# ── Input validation (mitigatie M1) ──────────────────────────────────────────
+# Alleen korte ingrediënt-/stofnamen mogen in het profiel; instructietekst en
+# functiewoorden (door de allergie-regex als "stof" gevangen) worden verwijderd.
+_MAX_ITEM_WORDS = 3
+_MAX_ITEM_CHARS = 30
+_INSTRUCTION_WORDS = frozenset({
+    "negeer", "negeren", "negeert", "vergeet", "gebruik", "gebruiken", "voortaan", "altijd",
+    "regels", "regel", "instructie", "instructies", "systeem", "system", "prompt", "ignore",
+})
+_STOPWORDS = frozenset({
+    "de", "het", "een", "die", "dat", "deze", "dit", "mijn", "jouw", "zijn", "haar", "bij", "van",
+    "voor", "met", "ook", "en", "of", "ik", "je", "u", "te", "in", "op", "aan", "geen", "niet",
+})
+
+
+def _sanitize_item(item: str) -> str | None:
+    """Return a safe, short ingredient label, or None if the item must be dropped."""
+    words = []
+    for w in item.split():
+        bare = w.strip(".,!?;:'\"‘’“”()").lower()
+        # stop bij het eerste instructiewoord of HOOFDLETTERWOORD (aanvalszin)
+        if bare in _INSTRUCTION_WORDS or (len(bare) > 2 and w.strip(".,!?;:'\"‘’“”()").isupper()):
+            break
+        words.append(w)
+        if w.endswith((".", "!", "?", ";", ":")):
+            break
+    cleaned = _clean(" ".join(words))
+    if not cleaned or cleaned.lower() in _STOPWORDS:
+        return None
+    if len(cleaned.split()) > _MAX_ITEM_WORDS or len(cleaned) > _MAX_ITEM_CHARS:
+        return None
+    return cleaned
+
+
+def sanitize_items(items: list[str]) -> list[str]:
+    """Validate a list of profile items (used by extractor and the PUT endpoint)."""
+    clean = (_sanitize_item(i) for i in items)
+    return list(dict.fromkeys(c for c in clean if c))
+
+
 def _split_ingredients(raw: str) -> list[str]:
     """Split 'spinazie en banaan' or 'spinazie, banaan en mango' into individual items."""
     parts = re.split(r",\s*|\s+en\s+", raw, flags=re.IGNORECASE)
-    return [_clean(p) for p in parts if _clean(p)]
+    return sanitize_items([_clean(p) for p in parts if _clean(p)])
 
 
 def _first_name(text: str) -> str | None:
@@ -185,7 +225,8 @@ def extract_and_save(session_id: str, user_message: str) -> None:
     updates = _extract(user_message)
     if not updates:
         return
-    for key in ("favorite_ingredients", "disliked_ingredients", "allergies", "available_ingredients"):
+    # Geen spellingcorrectie op allergieën: het model maakte van "pinda" het ingrediënt "peen".
+    for key in ("favorite_ingredients", "disliked_ingredients", "available_ingredients"):
         if key in updates:
             updates[key] = _normalize_labels(updates[key])
     current = profile_store.load(session_id)

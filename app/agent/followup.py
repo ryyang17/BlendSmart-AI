@@ -2,6 +2,7 @@
 from langchain_ollama import ChatOllama
 from langchain_core.messages import AIMessage, SystemMessage
 from app.agent.state import AgentState
+from app.agent.recipe import SECURITY_RULES
 from app.config import settings
 
 _llm = ChatOllama(model=settings.ollama_llm_model, base_url=settings.ollama_base_url)
@@ -37,6 +38,7 @@ def _build_system(user_profile: dict) -> SystemMessage:
         )
 
     return SystemMessage(content=(
+        SECURITY_RULES + "\n"
         "Je bent Smoothie Buddy 🥤 — de vrolijke, persoonlijke smoothie-coach van BlendSmart. "
         "Je toon is warm, enthousiast en uitnodigend. "
         "De vraag heeft te weinig informatie voor een goed recept of advies.\n"

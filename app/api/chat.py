@@ -105,7 +105,7 @@ class AvailableIngredientsUpdate(BaseModel):
 @router.put("/profile/{session_id}/available_ingredients")
 def update_available_ingredients(session_id: str, update: AvailableIngredientsUpdate) -> dict:
     prof = profile_store.load(session_id)
-    prof["available_ingredients"] = update.items
+    prof["available_ingredients"] = memory_extractor.sanitize_items(update.items)
     profile_store.save(session_id, prof)
     return prof
 
