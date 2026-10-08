@@ -128,6 +128,9 @@ def _sanitize_item(item: str) -> str | None:
     cleaned = _clean(" ".join(words))
     if not cleaned or cleaned.lower() in _STOPWORDS:
         return None
+    # "ik vind noten niet lekker" mag niet ook als favoriet "noten niet" opleveren
+    if {"niet", "geen", "nooit"} & {w.lower() for w in cleaned.split()}:
+        return None
     if len(cleaned.split()) > _MAX_ITEM_WORDS or len(cleaned) > _MAX_ITEM_CHARS:
         return None
     return cleaned

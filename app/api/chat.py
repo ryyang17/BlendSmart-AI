@@ -63,9 +63,22 @@ def _store_turn(session_id: str | None, history: list[dict], message: str, reply
     ]
 
 
+def _remember(session_id: str | None, message: str) -> None:
+    """Extract profile facts in the background (never blocks the response)."""
+    if session_id:
+        threading.Thread(
+            target=memory_extractor.extract_and_save,
+            args=(session_id, message),
+            daemon=True,
+        ).start()
+
+
 @router.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest) -> ChatResponse:
     if input_guard.is_injection(request.message):
+        # The attack never reaches the model, but legitimate facts in the same message
+        # (e.g. "ik hou niet van pindakaas") are still saved; the extractor filters instruction text.
+        _remember(request.session_id, request.message)
         return ChatResponse(reply=input_guard.REFUSAL, user_name=None)
     history = _get_history(request.session_id, request.history)
     user_profile = profile_store.load(request.session_id) if request.session_id else {}
@@ -170,6 +183,8 @@ async def chat_stream(request: ChatRequest):
     from app.agent.response import DISCLAIMER
 
     if input_guard.is_injection(request.message):
+        _remember(request.session_id, request.message)
+
         async def _refuse():
             yield f"data: {json.dumps({'token': input_guard.REFUSAL, 'done': True, 'user_name': None})}\n\n"
         return StreamingResponse(_refuse(), media_type="text/event-stream", headers=_SSE_HEADERS)
